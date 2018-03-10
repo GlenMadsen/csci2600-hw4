@@ -6,12 +6,11 @@ import java.util.Iterator;
 
 import org.junit.Before;
 import org.junit.Test;
-
 public final class GraphWrapperTest {
 	private final double JUNIT_DOUBLE_DELTA = 0.00001;
 	
 	@Test
-	public void testNodeCreation() // Passes the Representation Invariant on Creation
+	public void Test_Graph_Creation() // Passes the Representation Invariant on Creation
 	{
 		GraphWrapper gr = new GraphWrapper();
 	}
@@ -72,6 +71,18 @@ public final class GraphWrapperTest {
 		Iterator<String> gr_it = gr.listNodes();
 		assertEquals(gr_it.hasNext(), false);
 
+	}
+	@Test
+	public void Add_Null_Node() // Tries to add a null node so RepInvariant has to do some work
+	{
+		GraphWrapper gr = new GraphWrapper();
+		try 
+		{
+			gr.addNode(null);
+		}
+		catch (RuntimeException A)
+		{
+		}	
 	}
 	@Test
 	public void list_One_Children()  // Checks if one child is successfully created and listed
@@ -138,6 +149,51 @@ public final class GraphWrapperTest {
 		GraphWrapper gr = new GraphWrapper();
 		assertEquals(gr.listChildren("A"), null);
 
+	}
+	@Test
+	public void add_Null_edgeLabel() //  Tries to add an edge with a null value
+	{
+		int x = 0;
+		GraphWrapper gr = new GraphWrapper();
+		gr.addNode("A");
+		gr.addNode("B");
+		try
+		{
+			gr.addEdge("A", "B", null);
+		}
+		catch (RuntimeException A)
+		{
+			x += 1;
+		}
+		assertEquals(x,1);
+	}
+	@Test
+	public void add_Null_Edge() //  Tries to add an edge with a null value
+	{ // Checks that checkRep works but incrementing an x during catches
+		int x = 0;
+		GraphWrapper gr = new GraphWrapper();
+		gr.addNode("A");
+		gr.addNode("B");
+		try
+		{
+			gr.addNode(null);
+		}
+		catch (RuntimeException A)
+		{
+			x += 1;
+		}
+		try 
+		{
+			Iterator<String> gr_it = gr.listNodes();
+			assertEquals(gr_it.next(), "A");
+			assertEquals(gr_it.next(), null);
+			gr.addEdge("A", null, "Hi");
+		}
+		catch (RuntimeException B)
+		{
+			x += 1;
+		}
+		assertEquals(x,2);
 	}
 	@Test
 	public void list_Two_Children() // Lists two children in alphabetical order
@@ -235,4 +291,62 @@ public final class GraphWrapperTest {
 		assertEquals(gr_it.next(), "C(ten)");
 		assertEquals(gr_it.next(), "C(two)");
 	}	
+@Test
+public void list_Lots_of_Nodes() // Creates a graph of a lots of nodes
+{ // Tests
+	GraphWrapper gr = new GraphWrapper();
+	Iterator<String> gr_it = gr.listNodes();
+	assertEquals(gr_it.hasNext(), false);
+	gr.addNode("Z");
+	gr.addNode("T");
+	gr.addNode("S");
+	gr.addNode("A");
+	gr.addNode("B");
+	gr.addNode("C");
+	gr.addNode("G");
+	gr.addNode("H");
+	gr.addEdge("A", "A", "2");
+	gr.addEdge("A", "A", "1");
+	gr.addEdge("A", "T", "3");
+	gr.addEdge("A", "I", "4");
+	gr_it = gr.listChildren("A");
+	assertEquals(gr_it.next(), "A(1)");
+	assertEquals(gr_it.next(), "A(2)");
+	assertEquals(gr_it.next(), "T(3)");
+	assertEquals(gr_it.hasNext(), false);
+	gr_it = gr.listChildren("S");
+	assertEquals(gr_it.hasNext(), false);
+	gr_it = gr.listChildren("S");
+	assertEquals(gr.listChildren("V"), null);
+	gr.addNode("I");
+	gr.addEdge("Z", "I", "1");
+	gr.addNode("J");
+	gr.addEdge("Z", "J", "1");
+	gr.addNode("K");
+	gr.addEdge("Z", "K", "1");
+	gr.addNode("L");
+	gr.addEdge("Z", "L", "1");
+	gr.addEdge("Z", "A", "1");
+	gr_it = gr.listChildren("Z");
+	assertEquals(gr_it.next(), "A(1)");
+	assertEquals(gr_it.next(), "I(1)");
+	assertEquals(gr_it.next(), "J(1)");
+	assertEquals(gr_it.next(), "K(1)");
+	assertEquals(gr_it.next(), "L(1)");
+	gr_it = gr.listNodes();
+	assertEquals(gr_it.next(), "A");
+	assertEquals(gr_it.next(), "B");
+	assertEquals(gr_it.next(), "C");
+	assertEquals(gr_it.next(), "G");
+	assertEquals(gr_it.next(), "H");
+	assertEquals(gr_it.next(), "I");
+	assertEquals(gr_it.next(), "J");
+	assertEquals(gr_it.next(), "K");
+	assertEquals(gr_it.next(), "L");
+	assertEquals(gr_it.next(), "S");
+	assertEquals(gr_it.next(), "T");
+	assertEquals(gr_it.next(), "Z");
+	assertEquals(gr_it.hasNext(), false);
+	}
+
 }

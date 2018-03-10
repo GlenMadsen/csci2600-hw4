@@ -3,6 +3,9 @@ package hw4;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+
 import java.util.*;
 
 /**
@@ -52,7 +55,7 @@ public class Graph {
 	public Graph()
 	{
 		this.nodes = new HashMap<String, HashMap<String, ArrayList<String> > >();
-		checkRep();
+		checkRep(); // Only checks Rep after ADT is created.
 	}
 
 
@@ -67,13 +70,12 @@ public class Graph {
 	 * @modifies nodes values and keySet if nodeData is not in the keySet of nodes.keySet()
 	 */
 	public void addNode(String nodeData)
-	{
-		checkRep();
+	{ // Does not have a check if nodeData is null, but checkRep handles it by throwing an expception.
+		checkRep(); // checkRep is not commented out since addNode changes the ADT.
 		if (!this.nodes.containsKey(nodeData))
 		{
 			HashMap<String, ArrayList<String> > temp = new HashMap<String, ArrayList<String> >();
 			this.nodes.put(nodeData, temp);
-			//System.out.println(this.nodes.get(nodeData).values().isEmpty());
 		}
 		checkRep();
 	}
@@ -107,7 +109,7 @@ public class Graph {
 	 * and the corresponding keySet of the Hashmap
 	 */
 	public void addEdge(String parentNode, String childNode, String edgeLabel)
-	{
+	{// Add edge modifies, so checks Rep at the start and end, adds a new node if keyset contains both nodes
 		checkRep();
 		if(this.nodes.containsKey(parentNode) && this.nodes.containsKey(childNode))
 		{
@@ -117,8 +119,8 @@ public class Graph {
 			}
 			else
 			{
-				ArrayList <String> temp = new ArrayList<String> (1);
-				temp.add(edgeLabel);
+				ArrayList <String> temp = new ArrayList<String> (1); // Does not check if edgelabel is null
+				temp.add(edgeLabel);						// Would violate invariant, handled by checkRep
 				this.nodes.get(parentNode).put(childNode, temp);
 			}
 		}
@@ -134,11 +136,13 @@ public class Graph {
 	 * @modifies N/A
 	 */
 	public Iterator<String> listNodes()
-	{
+	{ // As listNode does not modify anything, it has checkReps commented out, sorts using a new TreeSet
+		//CheckRep();
 		Set<String> list_of_nodes = new TreeSet<String>();
 		list_of_nodes.addAll(this.nodes.keySet());
 		Iterator<String> graph_it = list_of_nodes.iterator();
 		checkRep();
+		//CheckRep();
 		return graph_it;
 	}
 	/**
@@ -158,15 +162,14 @@ public class Graph {
 	 * @modifies N/A
 	 */
 	public Iterator<String> listChildren(String parentNode)
-	{
-		if(this.nodes.keySet().isEmpty())
+	{ // Lists all the children of a parent node, commented out check reps as it shouldn't modify anything
+		//CheckRep();
+		if(this.nodes.keySet().isEmpty()) // Specified to return null if keyset is empty
 		{
-			//			Iterator<String> graph_it = this.nodes.keySet().iterator();
-			//			return graph_it;
 			return null;
 		}
-		if(this.nodes.get(parentNode) != null)
-		{
+		if(this.nodes.get(parentNode) != null) // Iterates through keyset and array length for a node
+		{ // Concatenates the strings, sorts them, then returns an iterator of this new sorted list.
 			ArrayList<String> list_of_children = new ArrayList<String>();
 			Iterator<String> key_it = this.nodes.get(parentNode).keySet().iterator();
 			while(key_it.hasNext())
@@ -180,10 +183,12 @@ public class Graph {
 			}
 			list_of_children.sort(null);
 			Iterator<String> graph_it = list_of_children.iterator();
+			//CheckRep();
 			return graph_it;
 		}
-		else
+		else // Also if the item is not in the key set
 		{	
+			//CheckRep();
 			return null;
 		}
 	}
