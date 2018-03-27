@@ -131,7 +131,7 @@ public final class MarvelPathsTest {
 	}
 	@Test
 	public void Interconnected() // Checks if a graph uses the correct path (length 1 since fully connected)
-	{
+	{ // Also it should be in alphabetical order, so always using the L path.
 		String filename = "data/Alphabetical_Animals.csv";
 		String answer;
 		MarvelPaths Mar = new MarvelPaths();
@@ -145,7 +145,7 @@ public final class MarvelPathsTest {
 		
 	}
 	@Test
-	public void New_Graph() // Checks if a graph uses the correct alphabetical path
+	public void New_Graph() // Checks if a graph can make a new graph and delete the old one correctly
 	{
 		String filename = "data/Alphabetical_Animals.csv";
 		String answer;
@@ -164,7 +164,7 @@ public final class MarvelPathsTest {
 		assertEquals("unknown character Naughty\n" + "unknown character Peace\n",answer);
 	}
 	@Test
-	public void Broken_File() // Checks if a graph uses the correct alphabetical path
+	public void Broken_File() // Checks if it handles a broken (bad format) file correctly (doesn't crash)
 	{
 		String filename = "data/Broken_File.csv";
 		int x = 0;

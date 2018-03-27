@@ -64,7 +64,7 @@ public class MarvelPaths {
 			// Below is a set of all characters found
 			Set<String> chars = new HashSet<String>();
 			MarvelParser.readData(filename,charsInBooks,chars);
-			System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
+			// System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
 			// Creates variables and iterators for parsing the data into character, book, and pairs
 			Iterator<String> Marvel_char_it = chars.iterator();
 			Iterator<String> Marvel_book_it = charsInBooks.keySet().iterator();
