@@ -174,9 +174,33 @@ public final class MarvelPathsTest {
 		assertEquals("unknown character Naughty\n" + "unknown character Peace\n",answer);
 	}
 	@Test
+	public void MarvelParser_Creation() // Checks if it handles a broken (bad format) file correctly (doesn't crash)
+	{
+		MarvelParser Mar = new MarvelParser();
+	}
+	@Test
 	public void Broken_File() // Checks if it handles a broken (bad format) file correctly (doesn't crash)
 	{
 		String filename = "data/Broken_File.csv";
+		int x = 0;
+		MarvelPaths Mar = new MarvelPaths();
+		Mar.createNewGraph(filename);
+		assertEquals(x, 0);	
+	}
+	@Test
+	public void Broken_File2() // Checks if it handles a broken (bad format) file correctly (doesn't crash)
+	{
+		String filename = "data/Broken_File_2.csv";
+		int x = 0;
+		MarvelPaths Mar = new MarvelPaths();
+		Mar.createNewGraph(filename);
+		assertEquals(x, 0);	
+	}
+
+	@Test
+	public void Broken_File4() // Checks if it handles a broken (bad format) file correctly (doesn't crash)
+	{
+		String filename = "data/Broken_File_4.csv";
 		int x = 0;
 		MarvelPaths Mar = new MarvelPaths();
 		Mar.createNewGraph(filename);
