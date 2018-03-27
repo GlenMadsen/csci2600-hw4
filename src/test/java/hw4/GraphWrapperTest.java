@@ -251,7 +251,7 @@ public final class GraphWrapperTest {
 		assertEquals(gr_it.next(), "B(one)");
 		assertEquals(gr_it.next(), "C(two)");
 		gr_it = gr.listChildren("B");
-		assertEquals(gr_it.next(), "B(woo)");
+		assertEquals(gr_it.hasNext(), false); //Reflexive Edges no longer supposed to work
 	}
 	@Test
 	public void list_LotsChildren_Children() // Creates a graph of a few nodes with many edges between them
@@ -277,11 +277,11 @@ public final class GraphWrapperTest {
 		gr.addEdge("A", "B", "one");
 
 		Iterator<String> gr_it = gr.listChildren("A");
-		assertEquals(gr_it.next(), "A(four)");
-		assertEquals(gr_it.next(), "A(one)");
-		assertEquals(gr_it.next(), "A(one)");
-		assertEquals(gr_it.next(), "A(three)");
-		assertEquals(gr_it.next(), "A(two)");
+		//assertEquals(gr_it.next(), "A(four)"); Reflexive is meant to fail
+		//assertEquals(gr_it.next(), "A(one)");
+		//assertEquals(gr_it.next(), "A(one)");
+		//assertEquals(gr_it.next(), "A(three)");
+		//assertEquals(gr_it.next(), "A(two)");
 		assertEquals(gr_it.next(), "B(five)");
 		assertEquals(gr_it.next(), "B(nine)");
 		assertEquals(gr_it.next(), "B(one)");
@@ -310,8 +310,8 @@ public void list_Lots_of_Nodes() // Creates a graph of a lots of nodes
 	gr.addEdge("A", "T", "3");
 	gr.addEdge("A", "I", "4");
 	gr_it = gr.listChildren("A");
-	assertEquals(gr_it.next(), "A(1)");
-	assertEquals(gr_it.next(), "A(2)");
+	//assertEquals(gr_it.next(), "A(1)"); Reflexive Edges are supposed to fail
+	//assertEquals(gr_it.next(), "A(2)");
 	assertEquals(gr_it.next(), "T(3)");
 	assertEquals(gr_it.hasNext(), false);
 	gr_it = gr.listChildren("S");
