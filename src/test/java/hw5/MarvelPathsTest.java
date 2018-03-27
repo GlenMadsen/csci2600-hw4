@@ -1,16 +1,17 @@
 package hw5;
 
 import static org.junit.Assert.*;
-import java.io.*;
 import org.junit.Test;
 
 public final class MarvelPathsTest {
 	private final double JUNIT_DOUBLE_DELTA = 0.00001;
 	
 	@Test
-	public void Test_Graph_Creation() // Passes the Representation Invariant on Creation
+	public void Test_Graph_Creation() // Passes the Representation Invariant on Creation (does not crash)
 	{
+		int x = 0;
 		MarvelPaths Mar = new MarvelPaths();
+		assertEquals(x, 0);
 	}
 	
 	@Test
@@ -176,7 +177,9 @@ public final class MarvelPathsTest {
 	@Test
 	public void MarvelParser_Creation() // Checks if it handles a broken (bad format) file correctly (doesn't crash)
 	{
+		int x = 0;
 		MarvelParser Mar = new MarvelParser();
+		assertEquals(x, 0);	
 	}
 	@Test
 	public void Broken_File() // Checks if it handles a broken (bad format) file correctly (doesn't crash)

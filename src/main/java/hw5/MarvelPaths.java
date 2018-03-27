@@ -45,6 +45,7 @@ public class MarvelPaths {
     public MarvelPaths()
 	{
 		this.graph = new Graph();
+		checkRep();
 	}
    
     /** @param: filename The path to the "CSV" file that contains the <hero, book> pairs   
@@ -53,10 +54,11 @@ public class MarvelPaths {
    * @modifies: MarvelPaths private variable graph, both its keyset and values
    * @effects: the graph variable has nodes added for every hero from the file and edges added between every
    * 		   hero with which they share a comic book with, also read in from the file.
-   * @throws: IOException if file cannot be read of file not a CSV file because it uses MarvelParser                                                                                  
+   * @throws: N/A                                                                                
  */  
 	public void createNewGraph(String filename) // Reads a file and then constructs a graph of type Graph
 	{
+		checkRep();
 		try // Encapsulated within a try due to calling readData from MarvelParser 
 		{  // Constructs necessary variables for readData
 			Map<String, Set<String>> charsInBooks = new HashMap<String,Set<String> >();
@@ -98,24 +100,28 @@ public class MarvelPaths {
 					}
 				}
 			}
-//			Iterator<String> Marvel_boooook = this.graph.listNodes();
-//			String Marvel_boook = Marvel_boooook.next();
-//			System.out.println(Marvel_boook);
-//			Iterator<String> Marvel_char_ite = this.graph.listChildren(Marvel_boook);
-//			while(Marvel_char_ite.hasNext())
-//			{
-//				Marvel_character = Marvel_char_ite.next();
-//				System.out.println(Marvel_character);
-//			}
+			checkRep();
 		}
 		catch (IOException e) // Catches any exceptions caused by a bad file
 		{
+			checkRep();
 			e.printStackTrace();
 		}
 	}
-	
+	   /** @param: two Strings node1, node2 which represent the start and end locations respectively   
+	   * @returns: A string which either states that the node(s) were not found in the Graph graph,
+	   * 		   A string which states that no path between the points were found in the Graph
+	   *           A string which implies that the start node is the same as the destination
+	   *           A string which describes every step of the path, including the intermediary nodes and
+	   *             the edge labels it traverses on from starting node to ending node.
+	   * @requires: N\A                                                                                             
+	   * @modifies: N\A
+	   * @effects: N\A
+	   * @throws: N\A                                                                                  
+	 */ 
 	public String findPath(String node1, String node2) // Determines the shortest path from node1 to node2
 	{ // Via BFS, returns the path, if multiple, then which ever is first in lexicographic ordering. 
+		checkRep();
 		String start = node1; // Creates new variables for the start and dest nodes, begins to check
 		String dest = node2; // if they are in the graph, also initializes the path variable
 		String node;
@@ -176,6 +182,7 @@ public class MarvelPaths {
 				{ // edges into one string, then returns it
 					path = path.concat(M.get(n).get(i)).concat("\n");
 				}
+				checkRep();
 				return path;
 			}
 			Iterator<String> edge_it = this.graph.listChildren(n); // Gets an iterator for the edges of n
@@ -201,9 +208,18 @@ public class MarvelPaths {
 				}
 			}
 		}
+		checkRep();
 		path = path.concat("no path found\n"); // If no paths are found then this point is reached, all vertices visited,
 		return path; // and "no path found" returned".
 	}
+	   /** @param: A String called child
+	   * @returns: The String but reversed, so the last character is first, 2nd to last is 2nd, etc. until
+	   * 			the first character is last.
+	   * @requires: N\A                                                                                             
+	   * @modifies: N\A
+	   * @effects: N\A
+	   * @throws: N\A                                                                               
+	 */ 
 	public static String ReverseString(String child) // Static Function used to reverse strings
 	{
 		String reversed = "";
@@ -213,7 +229,35 @@ public class MarvelPaths {
 		}
 		return reversed;
 	}
-	
+	private void checkRep() throws RuntimeException
+	{// Only thing checkRep() does not check is for duplicate nodes, which is handled natively by the Set
+	 // class in Java so they will never be present.
+		if(graph == null)
+		{
+            throw new RuntimeException("graph == null");
+		}
+		Iterator<String> node_it = graph.listNodes();
+		Iterator<String> chil_it;
+		String node_key;
+		String chil_key;
+		while(node_it.hasNext())
+		{
+			node_key = node_it.next();
+			chil_it = graph.listChildren(node_key);
+			if(node_key == null)
+			{
+				throw new RuntimeException("A node's HashMap of it's children keyset is null");
+			}
+			while(chil_it.hasNext())
+			{
+				chil_key = chil_it.next();
+				if(chil_key == null)
+				{
+					throw new RuntimeException("The ArrayList<String> of edge labels for a child contains null");
+				}
+			}
+		}
+	}
 //	public static void main(String[] arg)
 //	{
 //		String file = arg[0];
