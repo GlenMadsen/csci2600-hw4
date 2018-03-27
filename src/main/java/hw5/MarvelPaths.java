@@ -64,7 +64,7 @@ public class MarvelPaths {
 			// Below is a set of all characters found
 			Set<String> chars = new HashSet<String>();
 			MarvelParser.readData(filename,charsInBooks,chars);
-			// System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
+			// x`System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
 			// Creates variables and iterators for parsing the data into character, book, and pairs
 			Iterator<String> Marvel_char_it = chars.iterator();
 			Iterator<String> Marvel_book_it = charsInBooks.keySet().iterator();
@@ -138,7 +138,11 @@ public class MarvelPaths {
 		}
 		if(node1_present != 1 || node2_present != 1) // Otherwise returns specified output
 		{ 
-			
+			if(node1.equals(node2))
+			{
+				path = path.concat("unknown character " + start + "\n");
+				return path;
+			}
 			if(node1_present != 1)
 			{ 
 				path = path.concat("unknown character " + start + "\n");
@@ -197,7 +201,7 @@ public class MarvelPaths {
 				}
 			}
 		}
-		path = path.concat("no path found"); // If no paths are found then this point is reached, all vertices visited,
+		path = path.concat("no path found\n"); // If no paths are found then this point is reached, all vertices visited,
 		return path; // and "no path found" returned".
 	}
 	public static String ReverseString(String child) // Static Function used to reverse strings

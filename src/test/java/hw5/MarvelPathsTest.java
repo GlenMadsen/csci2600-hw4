@@ -43,7 +43,7 @@ public final class MarvelPathsTest {
 		MarvelPaths Mar = new MarvelPaths();
 		Mar.createNewGraph(filename);
 		answer = Mar.findPath("Solus Dellagar", "Ochre Blamish Snail");
-		assertEquals("path from Solus Dellagar to Ochre Blamish Snail:\n" + "no path found",answer);
+		assertEquals("path from Solus Dellagar to Ochre Blamish Snail:\n" + "no path found\n",answer);
 	}
 	@Test
 	public void No_Path_Two()// Checks if a graph with no path between two points returns the correct output
@@ -53,7 +53,7 @@ public final class MarvelPathsTest {
 		MarvelPaths Mar = new MarvelPaths();
 		Mar.createNewGraph(filename);
 		answer = Mar.findPath("Zephyr", "Alpaca");
-		assertEquals("path from Zephyr to Alpaca:\n" + "no path found",answer);
+		assertEquals("path from Zephyr to Alpaca:\n" + "no path found\n",answer);
 	}
 	@Test
 	public void No_Node1() // Checks if a graph with no node1 returns the correct output
@@ -74,6 +74,16 @@ public final class MarvelPathsTest {
 		Mar.createNewGraph(filename);
 		answer = Mar.findPath("Myre Blamish Snail", "Chaos Elemental");
 		assertEquals("unknown character Chaos Elemental\n",answer);
+	}
+	@Test
+	public void No_Node3() // Checks if a graph with no node1 returns the correct output
+	{
+		String filename = "data/RS_Level1-10.csv";
+		String answer;
+		MarvelPaths Mar = new MarvelPaths();
+		Mar.createNewGraph(filename);
+		answer = Mar.findPath("TzTok-Jad", "TzTok-Jad");
+		assertEquals("unknown character TzTok-Jad\n",answer);
 	}
 	@Test
 	public void Neither_Node() // Checks if a graph with neither node returns the correct output
