@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>CSCI 2600 Homework 6: Generics and Least-Cost Paths</title>
+</head>
+<body>
+<div id="header">
+<div class="course">CSCI 2600 Principles of Software</div>
+<h1><!-- omit from toc -->
+<span class="head">Homework 6:</span>
+<span class="title">Generics and Least-Cost Paths</span>
+</h1>
+<h2><!-- omit from toc -->
+<span class="head">Due:</span>
+<span class="due">Thursday, April 5 <b>@ 1:59:59 pm</b></span>
+</h2>
+</div>
+
+<h2 id="Introduction">Introduction</h2>
+
+<p>
+This assignment lays the groundwork for an application you'll build in homework assignments
+7 and 9. Using your graph as the underlying data structure, your application 
+will generate directions for getting around buildings on RPI Campus.
+</p>
+
+<p>
+This assignment has two main parts. In the first part, you will make your graph
+class(es) generic. In the second part, you will implement a different
+path-finding algorithm for graphs known as Dijkstra's algorithm. 
+</p>
+
+<h2 id="Problems">Augmenting Your Graph and Marvel Paths</h2>
+
+<h3 id="Problem1">Problem 1: Making Your Graph Generic</h3>
+<p>
+In the application you'll be building in subsequent homeworks, your mission 
+is to find the shortest route to visit a certain set of buildings.  
+A graph is an excellent representation of a map,
+and luckily you have already specified and implemented a graph.
+Unfortunately, your graph only stores <tt>String</tt>s, whereas the route-finding 
+application needs to store non-String data types in the nodes and edges. 
+More generally, your graph would be
+much more widely useful if only the client could choose the data types to be
+stored in nodes and edges. Herein lies the power of generics!
+</p>
+
+<p>
+Your task is to convert your graph ADT to a generic class. Rather than always
+storing the data in nodes and edge labels as <tt>String</tt>s, it should have
+two type parameters representing the data types to be stored in nodes and
+edges. Directly modify your existing classes under <tt>hw4</tt> —
+there is no need to copy or duplicate code.
+</p>
+
+<p>
+When you are done, your previously-written HW4 and HW5 tests and 
+<tt>MarvelPaths</tt> will no longer compile. Modify these classes to
+construct and use graph objects parameterized with Strings. All code must
+compile and all tests must pass when you submit your homework. 
+Depending on your changes, some of your tests may no longer
+be valid.  Try to adapt your tests to your new implementation,
+or discard them and write the new ones:  they should help you build confidence
+in your implementation.  But, don't overdo it:  as with any testing, stop
+when you feel that the additional effort is not being repaid in terms of
+increased confidence in your implementation.  
+</p>
+
+<h4 id="building-generics">Build tools and generic code</h4>
+
+<p>
+We want you to configure Eclipse to show generics problems as errors.
+By default, Eclipse shows generics problems as warnings (indicated by 
+yellow lines and markers). You can configure Eclipse to instead issue 
+errors (indicated by red lines and markers) for these problems. 
+Doing so will help you remember to write acceptable generics code.
+</p>
+
+<p>
+To make this configuration, go to Eclipse &gt;&gt; Preferences and select Java &gt;&gt; Compiler &gt;&gt; Errors/Warnings. 
+Under Generic types, change the value of Unchecked generic type operation to Error.
+</p>
+
+<p>
+(Note that there is another setting named "Usage of a raw type" that is set 
+to Ignore by default. We recommend leaving this option disabled or set 
+simply to Warn because it is specific to the Eclipse compiler and checks 
+for more stringent requirements than required by the Java language specification. 
+Thus, "Usage of raw type" may complain about issues, that while providing insight 
+about your code, is not checked by Oracle's javac, which is our official standard 
+for compilation errors and warnings in this class.) 
+</p>
+
+
+<p>
+Hint: Sometimes you may find that classes which
+previously compiled are now reporting "[some class] cannot be resolved" errors
+in Eclipse. You can fix these errors by doing a clean build: go to Project
+&gt;&gt; Properties &gt;&gt; Clean..., select your <tt>csci2600</tt> project, and
+hit OK.
+</p>
+
+
+<h3 id="Problem2">Problem 2: Weighted Graphs and Least-Cost Paths </h3>
+<p>
+In a <em>weighted graph</em>, 
+the label on each edge is a <em>length</em>, <em>cost</em>, or
+<em>weight</em> representing the
+cost of traversing that edge. Depending on the application, the cost may be
+measured in time, money, physical distance, etc. The total cost of a path is the
+sum of the costs of all edges in that path, and the <em>minimum-cost path</em>
+between two nodes is the path with the lowest total cost between those nodes.
+</p>
+
+<h4 id="Dijkstras_algorithm">Dijkstra's algorithm</h4>
+
+<p>
+You will implement 
+<a href="http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra's
+algorithm</a>, which finds a minimum-cost path between two given nodes
+in a graph with all nonnegative edge weights. Below is a pseudocode
+algorithm that you may use in your implementation. You are free to
+modify it as long as you are essentially still implementing Dijkstra's
+algorithm. Your implementation of the algorithm may assume a graph
+with <tt>Double</tt> edge weights.
+</p>
+
+<p>
+The algorithm uses a <a href="http://en.wikipedia.org/wiki/Priority_queue">priority queue</a>. 
+<!--
+You should be familiar with this data structure from Homework 4. In Homework 4 the <tt>remove</tt> 
+operation removed the greatest value stored in the queue. For the purposes of Dijkstra's
+algorithm, <tt>remove</tt> must remove the least value.
+--> 
+The standard Java libraries include an implementation of a
+<a href="http://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html"><tt>PriorityQueue</tt></a>.
+</p>
+
+<pre class="code_block">    Dijkstra's algorithm assumes a graph with all nonnegative edge weights.
+
+    start = starting node
+    dest = destination node
+    active = priority queue.  Each element is a path from start to a given node.
+             A path's "priority" in the queue is the total cost of that path.
+             Nodes for which no path is known yet are not in the queue.
+    finished = set of nodes for which we know the minimum-cost path from start.
+
+    // Initially we only know of the path from start to itself, which has a cost
+    // of zero because it contains no edges.
+    Add a path from start to itself to active
+
+    while active is non-empty:
+        // minPath is the lowest-cost path in active and is the minimum-cost
+        // path for some node
+        minPath = active.removeMin()
+        minDest = destination node in minPath
+        
+        if minDest is dest:
+            return minPath
+
+        if minDest is in finished:
+            continue
+
+        for each edge e = ⟨minDest, child⟩:
+            // If we don't know the minimum-cost path from start to child,
+            // examine the path we've just found
+            if child is not in finished:
+                newPath = minPath + e
+                add newPath to active
+
+        add minDest to finished
+
+    If the loop terminates, then no path exists from start to dest.
+    The implementation should indicate this to the client.
+</pre>
+
+<h4 id="Marvel">Dijkstra's Algorithm in Marvel Paths</h4>
+<p>
+You will write a modified version of your Marvel Paths application in 
+which your application finds its paths using Dijkstra's algorithm 
+instead of BFS. Dijkstra's algorithm requires weighted edges. To 
+simulate edge weights over the Marvel dataset, the weight of the edge 
+between two characters will be based on how well-connected those two 
+characters are. Specifically, the weight is the inverse of how many 
+comic books two characters are in together (equivalently, the weight is 
+the multiplicative inverse of the number of edges in the multigraph 
+between
+them). For example, if Amazing Amoeba and Zany Zebra appeared in 5 comic
+ books together, the weight of the edge between them would be 1/5. Thus,
+ the more well-connected two characters are, the lower the weight and 
+the more likely that a path is taken through them. In summary, the idea 
+with the Marvel data is to treat the number of paths from one node to 
+another as a "distance" — if there are several edges from one node to 
+another then that is a "shorter" distance than another pair of nodes 
+that are only connected by a single edge.
+</p>
+
+<div>Things to note:</div>
+<ul style="margin-top: 0px;">
+	<li>
+	  A path from a character to itself is defined to have cost 0.0.
+	</li>
+	<li>
+	  Calculations for the weight of the edges in your graph should be done
+ when the graph is loaded. This assignment is different from the last 
+one in that when the graph is initialized there is only one edge between
+ nodes and that edge is the weighted edge. The one edge between any two 
+characters will have the label containing the multiplicative inverse of 
+how many books they share.
+	</li>
+	<li>
+    On graph initialization, there will be at most one edge between two 
+Marvel characters, but the addEdge functionality still allows adding 
+multiple weighted edges between two characters.  You must be sure that 
+path-finding will use the least cost edge if there are multiple edges 
+between two characters.  In other words, if a new edge is added to your 
+graph after its initialization, then path-finding should be able to 
+factor that edge into its calculations without re-calculating the 
+weights of other edges or deleting/overwriting any existing edges.
+	</li>
+</ul>
+
+
+<p>
+Place your new Marvel application
+in <tt>src/main/java/hw6/MarvelPaths2.java</tt> in package <tt>hw6</tt>. In choosing how to organize your
+code, remember to avoid duplicating code as much as possible. In
+particular, reuse existing code where possible, and keep in mind that
+you may need to use the same implementation of Dijkstra's algorithm in
+a different application.</p>
+
+<p>
+<!-- in 13wi: 30 seconds. -->
+For this assignment, your program must be able to construct the graph and find
+a path in less than <strong>30</strong> seconds using the full Marvel
+dataset. We will set the tests to have a 3000 ms (30 second) timeout
+for each test and run with assertions disabled.
+</p>
+
+<p>
+As before, you are welcome to write a <tt>main()</tt> method for your
+application, but you are not required to do so.
+</p>
+
+<!--
+<h4 id="Why_not_breadth-first-search">Why not breadth-first search?</h4>
+
+<p>
+This assignment does not reuse your breadth-first search algorithm.
+A breadth-first search between two nodes finds the path with the fewest
+number of edges.  In a weighted graph, it does not always find the minimum-cost path. In the example
+below, a breadth-first search from A to B would find the
+path <tt>{⟨A,B⟩}</tt> with total cost 10. But the alternative
+path <tt>{⟨A,C⟩,⟨C,D⟩,⟨D,B⟩}</tt> has a total cost of 3,
+making it a lower-cost path even though it has more edges.
+</p>
+
+<div id="Graph-Image">
+  <img src="min-cost-path.png" alt="A graph with a minimum-cost path of 3">
+  <div class="caption">A graph whose minimum-cost path is not found by BFS.</div>
+</div>
+
+<p>
+Breadth-first search gives the same results as Dijkstra's algorithm when
+all edge weights are 1.
+</p>
+-->
+
+<p>The interface of <tt>MarvelPaths2</tt> is the same as that of <tt>MarvelPaths</tt> in Homework 5, but
+with a few differences in arguments and output:
+</p>
+
+<ul>
+  <!--
+  <li>
+    Edge labels are <tt>Double</tt>s instead of <tt>String</tt>s. 
+    For <strong>listChildren</strong>, the same rules as before apply
+    for ordering output by nodes and edges, except that edges are now ordered
+    numerically instead of lexicographically.
+  </li>
+  -->
+
+  <li><strong>public void createNewGraph(String filename)</strong> is the same. 
+    It creates a brand new graph and populates the graph from <i>filename</i>, where <i>filename</i> is
+    a data file of the format for <tt>marvel.csv</tt> and is located in <tt>data/</tt>.
+    As in Homework 5, relative paths to data files should begin at <tt>data/</tt>. 
+    Consult Section "Paths to files" 
+    in Homework 5 if you are having trouble making Eclipse work with these relative paths.
+
+  <li><strong>public String findPath(String CHAR1, String CHAR2)</strong> 
+    searches with Dijkstra's algorithm instead of
+    BFS and returns its output in the form:
+
+<pre>path from <em>CHAR1</em> to <em>CHARN</em>:
+<em>CHAR1</em> to <em>CHAR2</em> with weight <em>w1</em>
+<em>CHAR2</em> to <em>CHAR3</em> with weight <em>w2</em>
+...
+<em>CHARN-1</em> to <em>CHARN</em> with weight <em>wN-1</em>
+total cost: <em>W</em>
+</pre>
+
+    <p>where <em>W</em> is the sum of <em>w1, w2, ..., wN-1</em>.</p>
+    <p>
+      In other words, the only changes in output from Homework 5 are the way the edge
+      labels are printed and the addition of a "total cost" line at the
+      bottom. The output should remain the same as before when no path is found
+      or the characters are not in the graph: in particular, do not print the
+      "total cost" line in those cases. 
+    </p>
+    <p>
+      If there are two minimum-cost paths between <em>CHAR1</em> and <em>CHARN</em>, 
+      it is undefined which one is printed.
+    </p>
+
+    <!--p>
+      What if the user asks for a path from a character to itself in
+      the dataset? We offer the same advice as in Homework 5: revisit
+      the pseudocode algorithm. What value does it say to return in
+      this case, and how would this return value be handled by findPath? 
+      (A well-written solution requires no special handling of this case.)
+    </p-->
+  </li>
+ 
+  <li>
+    <p>
+    For readability, the output of <tt>findPath</tt> should print numeric 
+    values with exactly 3 digits after the decimal point, rounding to the 
+    nearest value if they have more digits. The easiest way to specify the 
+    desired format of a value is using format strings. For example, you 
+    could create the String "Weight of 1.760" by writing:
+    </p> 
+
+   <p><tt>String.format("Weight of %.3f", 1.759555555555);</tt></p>
+
+   <p> In <tt>findPath</tt>, the total cost should be computed by summing the full values 
+    of the individual weights, not the rounded values. 
+   </p>
+  </li>
+
+
+  <li>
+        <p>As in Homework 5, a path from a character to itself should be treated as
+        a trivially empty path. Because this path contains no
+        edges, it has a cost of zero. (Think of the path as a list of edges.
+        The sum of an empty list is conventionally defined to be zero.) So,
+        your findPath should produce the usual output for a path but without
+        any edges, i.e.:
+        </p>
+
+<pre>path from <em>C</em> to <em>C</em>:
+total cost: 0.000</pre>
+
+        <p>This only applies to characters in the dataset: a request for a
+        path from a character that is not in the dataset to itself should
+        print the usual "unknown character C" output.</p>
+  </li>
+
+  <li>
+  <p>Also as in Homework 5, if the user gives two valid
+  node arguments <em>CHAR1</em> and <em>CHAR2</em> that have no path in the
+  specified graph, output:</p>
+<pre>path from <em>CHAR1</em> to <em>CHARN</em>:
+no path found
+</pre>
+  </li>
+
+</ul>
+
+
+<h3 id="Problem3">Problem 3: Testing Your Solution</h3>
+
+<p>Just as with Homework 5, create smaller <tt>*.csv</tt> files to test your 
+graph building and findPaths. Place them in the <tt>data/</tt> directory. Write tests in JUnit classes
+and place those tests in <tt>hw6</tt> package (<tt>src/test/java/hw6/</tt> directory). Just as in
+Homework 4 and 5, run EclEmma to measure your code coverage. The code coverage threshold will be set at 95% for this assignment.
+</p>
+
+
+<p>
+Tests do not directly test the property that your graph is
+generic. However, Homework 4 and Homework 5 tests use String edge
+labels, while Homework 6 uses numeric values. Supporting all three test drivers
+implicitly tests the generic behavior of your graph.
+</p>
+
+<h3 id="reflection">Reflection [0.5 points]</h3>
+
+<p>Please answer the following questions in a file named <tt>hw6_reflection.pdf</tt>
+in your
+<tt>answers/</tt> directory.  Answer briefly, but in enough detail to
+help you improve your own practice via introspection and to enable the
+course staff to improve Principles of Software in the future.</p>
+<ol>
+  <li>In retrospect, what could you have done better to reduce the time you
+  spent solving this assignment?</li>
+  <li>What could the course staff have done better to improve your learning
+  experience in this assignment?</li>
+  <li>What do you know now that you wish you had known before beginning the
+  assignment?</li>
+</ol>
+
+
+<h3 id="collaboration">Collaboration [0.5 points]</h3>
+<p>Please answer the following questions in a file
+named <tt>hw6_collaboration.pdf</tt> in your
+<tt>answers/</tt> directory.</p>
+<p>
+The standard integrity policy</a> applies to this assignment.
+</p>
+<p>
+State whether or not you collaborated with other students.
+If you did collaborate with other students, state their names and a brief
+description of how you collaborated.
+</p>
+
+<h2 id="breakdown">Grade Breakdown</h2>
+
+<ul>
+<li>Instructor hw4 tests: 5 pts (auto-graded)</li>
+<li>Instructor hw5 tests: 5 pts (auto-graded)</li>
+<li>Quality of hw6 test suite, percent of your tests passed: 5 pts (auto-graded)</li>
+<li>Quality of hw6 test suite, percent coverage: 5 pts (auto-graded)</li>
+<li>Instructor MarvelPaths2 tests: 16 pts (auto-graded)</li>
+<li>Code quality (Code organization, Genericity, Rep invarians, Abstraction functions, Specifications): 13 pts</li>
+<li>Collaboration and reflection: 1 pt</li>
+</ul>
+
+
+<h2 id="Hints">Hints</h2>
+<h3 id="Documentation">Documentation</h3>
+<p>
+When you add generic type parameters to a class, make sure to describe
+these type parameters in the class's Javadoc comments so the client
+understands what they are for.
+</p>
+<p>
+As usual, include an abstraction function, representation invariant,
+and checkRep in all classes that represent an ADT. If a class does not
+represent an ADT, place a comment that explicitly says so where the Abstraction 
+function and Rep invariant would normally go. (For example, classes that contain only
+static methods and are never constructed usually do not represent an
+ADT.) Please come to office hours if you feel unsure about what counts
+as an ADT and what doesn't.
+</p>
+
+<h3 id="Organization">Code Organization</h3>
+<p>
+In deciding how to organize your code, remember that you may need to
+reuse Dijkstra's algorithm in future homework assignments. These assignments have nothing
+to do with Marvel and, depending on your implementation, might use a
+different generic type for nodes. How can you structure your code so
+that your implementation of Dijkstra's algorithm is convenient to use
+for other applications?
+</p>
+
+<h2 id="Turnin">What to Turn In</h2>
+<p>You should add and commit the following files to your Git repository:</p>
+
+<ul>
+    <li><tt>src/main/java/hw6/MarvelPaths2.java</tt></li>
+    <li><tt>src/main/java/hw6/*.java</tt> <em>[Other classes you create, if any]</em></li>
+    <li><tt>data/*.csv</tt> <em>[Your .csv test files. Do not commit marvel.csv]</em></li>
+    <li><tt>src/test/java/hw6/*Test.java</tt> <em>[JUnit test classes you create]</em></li>
+    <li><tt>answers/hw6_reflection.pdf</tt></li>
+    <li><tt>answers/hw6_collaboration.pdf</tt></li>
+</ul>
+
+<p>Additionally, be sure to commit any updates you make to the
+following files:</p>
+<ul>
+  <li><tt>src/main/java/hw4/*.java</tt> <em>[Your graph ADT]</em></li>
+  <li><tt>src/test/java/hw4/*Test.java</tt> <em>[Your graph ADT test classes]</em></li>
+  <li><tt>src/main/java/hw5/*.java</tt> <em>[Your Marvel Paths]</em></li>
+  <li><tt>src/test/java/hw5/*Test.java</tt> <em>[Your Marvel Paths test classes]</em></li>
+</ul>
+
+
+<h2 id="errata">Errata</h2>
+<p>None yet. Check out the Announcements page regularly. As usual, we will announce errors there.</p>
+
+<div id="footer">
+<p>Parts of this homework are copied from Mike Enrst's Software Design and Implementation course.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
+<!--  LocalWords:  11pm H5 MarvelPaths Returnin ADT Char1 Char2 hw5 tsv p' 9em
+ -->
+<!--  LocalWords:  MarvelParser parseData BOOK1 CHAR3 BOOK2 java hw5 BFS img H6
+ -->
+<!--  LocalWords:  neighbors' dest worklist txt IMs returnin returnin331 192px
+ -->
+<!--  LocalWords:  attu 11pm Homeworks hw4 hw6 xml cse331 removeMin minPath w1
+ -->
+<!--  LocalWords:  PriorityQueue minDest newPath HW6TestDriver FindPath w2 wN
+ -->
+<!--  LocalWords:  ImplementationTests LoadGraph unweighted ListNodes
+ -->
+<!--  LocalWords:  ListChildren Djikstra's nonnegative
+ -->
