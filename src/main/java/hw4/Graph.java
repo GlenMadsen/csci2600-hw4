@@ -71,13 +71,13 @@ public class Graph {
 	 */
 	public void addNode(String nodeData)
 	{ // Does not have a check if nodeData is null, but checkRep handles it by throwing an expception.
-		checkRep(); // checkRep is not commented out since addNode changes the ADT.
+	//	checkRep(); // checkRep is not commented out since addNode changes the ADT.
 		if (!this.nodes.containsKey(nodeData))
 		{
 			HashMap<String, ArrayList<String> > temp = new HashMap<String, ArrayList<String> >();
 			this.nodes.put(nodeData, temp);
 		}
-		checkRep();
+	//	checkRep();
 	}
 
 
@@ -108,10 +108,13 @@ public class Graph {
 	 * or it modifies ArrayList<String> in the values of the HashMap mapped by nodes.get(parentNode)
 	 * and the corresponding keySet of the Hashmap
 	 */
+	
+	// Required a change to remove reflexive edge functionality, this change was done by changing the 
+	// if statement on line 117 to include a check if parent and child node were not equal
 	public void addEdge(String parentNode, String childNode, String edgeLabel)
 	{// Add edge modifies, so checks Rep at the start and end, adds a new node if keyset contains both nodes
-		checkRep();
-		if(this.nodes.containsKey(parentNode) && this.nodes.containsKey(childNode))
+	//	checkRep();
+		if(parentNode != childNode && this.nodes.containsKey(parentNode) && this.nodes.containsKey(childNode))
 		{
 			if(this.nodes.get(parentNode).containsKey(childNode))
 			{
@@ -124,7 +127,7 @@ public class Graph {
 				this.nodes.get(parentNode).put(childNode, temp);
 			}
 		}
-		checkRep();
+	//	checkRep();
 	}
 	/**
 	 * @param N/A
@@ -137,12 +140,11 @@ public class Graph {
 	 */
 	public Iterator<String> listNodes()
 	{ // As listNode does not modify anything, it has checkReps commented out, sorts using a new TreeSet
-		//CheckRep();
+	//	checkRep();
 		Set<String> list_of_nodes = new TreeSet<String>();
 		list_of_nodes.addAll(this.nodes.keySet());
 		Iterator<String> graph_it = list_of_nodes.iterator();
-		checkRep();
-		//CheckRep();
+	//	checkRep();
 		return graph_it;
 	}
 	/**
@@ -163,7 +165,7 @@ public class Graph {
 	 */
 	public Iterator<String> listChildren(String parentNode)
 	{ // Lists all the children of a parent node, commented out check reps as it shouldn't modify anything
-		//CheckRep();
+	//	checkRep();
 		if(this.nodes.keySet().isEmpty()) // Specified to return null if keyset is empty
 		{
 			return null;
@@ -183,12 +185,12 @@ public class Graph {
 			}
 			list_of_children.sort(null);
 			Iterator<String> graph_it = list_of_children.iterator();
-			//CheckRep();
+		//	checkRep();
 			return graph_it;
 		}
 		else // Also if the item is not in the key set
 		{	
-			//CheckRep();
+		//	checkRep();
 			return null;
 		}
 	}

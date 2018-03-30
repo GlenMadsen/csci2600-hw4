@@ -41,19 +41,19 @@ public class MarvelParser {
         }
     }
 
-    public static void main(String[] arg) {
-
-    	String file = arg[0];
-
-    	try {
-    		Map<String, Set<String>> charsInBooks = new HashMap<String,Set<String>>();
-    		Set<String> chars = new HashSet<String>();
-    		readData(file,charsInBooks,chars);
-    		System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
-
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-
-    }
+//    public static void main(String[] arg) {
+//
+//    	String file = arg[0];
+//
+//    	try {
+//    		Map<String, Set<String>> charsInBooks = new HashMap<String,Set<String>>();
+//    		Set<String> chars = new HashSet<String>();
+//    		readData(file,charsInBooks,chars);
+//    		System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
+//
+//    	} catch (IOException e) {
+//    		e.printStackTrace();
+//    	}
+//
+//    }
 }
