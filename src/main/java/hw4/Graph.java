@@ -10,9 +10,9 @@ import java.util.*;
 
 /**
  * Abstraction Function:
- * Graph represents a directed labeled multigraph where each key (a String) in the nodes keySet is a node 
- * in the graph and each nodes' keys map to a HashMap of all of it's children as keys (Strings) and an 
- * ArrayList<String> as a list of edgeLabels for every edge. There should be no duplicate nodes but 
+ * Graph represents a directed labeled multigraph where each key (a Generic K) in the nodes keySet is a node 
+ * in the graph and each nodes' keys map to a HashMap of all of it's children as keys (Generic K) and an 
+ * ArrayList<V> as a list of edgeLabels for every edge. There should be no duplicate nodes but 
  * duplicate edges between nodes are allowed.
  * 
  * So there is a set of nodes (possibly empty) in the first level of the map, with each node containing
@@ -38,23 +38,25 @@ import java.util.*;
  *  	*The values of the nodes HashMap is not null and does not contain null.
  *  	*The keyset of every HashMap mapped to by a key in nodes does not contain null and is not null.
  *  	*The values of every HashMap mapped to by a key in nodes is not null and does not contain null.
+ * @param <K>
+ * @param <V>
  */
 
-public class Graph {
+public class Graph<K, V> {
 
-	private HashMap<String, HashMap<String, ArrayList<String>>> nodes = new HashMap<String, HashMap<String, ArrayList<String> > >();
+	private HashMap<K, HashMap<K, ArrayList<V>>> nodes = new HashMap<K, HashMap<K, ArrayList<V> > >();
 
 	/**
 	 * @param N/A
 	 * @returns N/A
 	 * @throws N/A
 	 * @requires N/A
-	 * @effects constructs a new HashMap<String, HashMap<String, ArrayList<String> > > equal to null
+	 * @effects constructs a new HashMap<String, HashMap<String, ArrayList<V> > > equal to null
 	 * @modifies nodes variable is created
 	 */
 	public Graph()
 	{
-		this.nodes = new HashMap<String, HashMap<String, ArrayList<String> > >();
+		this.nodes = new HashMap<K, HashMap<K, ArrayList<V> > >();
 		checkRep(); // Only checks Rep after ADT is created.
 	}
 
@@ -64,17 +66,17 @@ public class Graph {
 	 * @returns N/A
 	 * @throws N/A
 	 * @requires nodeData to be a non-null String
-	 * @effects places a new HashMap<String, ArrayList<String> > equal to null in 
+	 * @effects places a new HashMap<String, ArrayList<V> > equal to null in 
 	 * nodes values with a key of nodeData mapped to it. 
 	 * If nodeData is already in the keySet of nodes then nothing is modified.
 	 * @modifies nodes values and keySet if nodeData is not in the keySet of nodes.keySet()
 	 */
-	public void addNode(String nodeData)
+	public void addNode(K nodeData)
 	{ // Does not have a check if nodeData is null, but checkRep handles it by throwing an expception.
 	//	checkRep(); // checkRep is not commented out since addNode changes the ADT.
 		if (!this.nodes.containsKey(nodeData))
 		{
-			HashMap<String, ArrayList<String> > temp = new HashMap<String, ArrayList<String> >();
+			HashMap<K, ArrayList<V> > temp = new HashMap<K, ArrayList<V> >();
 			this.nodes.put(nodeData, temp);
 		}
 	//	checkRep();
@@ -84,7 +86,7 @@ public class Graph {
 	/**
 	 * @param parentNode is the String key of the nodes HashMap, childNode is the key to be added or a 
 	 * key already of the HashMap mapped to by parentNode, and edgeLabel is the string to be added to either
-	 * a prior existing or new ArrayList<String> mapped to by childNode in the HashMap mapped to 
+	 * a prior existing or new ArrayList<V> mapped to by childNode in the HashMap mapped to 
 	 * by the parentNode key in the nodes HashMap. 
 	 * @returns N/A
 	 * @throws N/A
@@ -96,22 +98,22 @@ public class Graph {
 	 * it adds a String edgeLabel to the ArrayList mapped by the childNode in the values of that HashMap.
 	 * 
 	 * If the childNode does not exist in the keySet of the nodes.get(parentNode).keyset() HashMap, then
-	 * it adds a String childNode to that hashmaps keyset and maps it to a new ArrayList<String>
+	 * it adds a String childNode to that hashmaps keyset and maps it to a new ArrayList<V>
 	 * containing only the string edgeLabel.
 	 * 
 	 * Any duplicate edges going from the same parentNode to childNode with the same edgeLabel will still
-	 * be added to the ArrayList<String> so duplicates are allowed.
+	 * be added to the ArrayList<V> so duplicates are allowed.
 	 * 
 	 * @modifies If the nodes keySet contains parentNode and childNode, it either modifies
-	 * the ArrayList<String> in the values of the HashMap mapped by nodes.get(parentNode) if 
+	 * the ArrayList<V> in the values of the HashMap mapped by nodes.get(parentNode) if 
 	 * childNode already exists in nodes.get(parentNode).keySet()
-	 * or it modifies ArrayList<String> in the values of the HashMap mapped by nodes.get(parentNode)
+	 * or it modifies ArrayList<V> in the values of the HashMap mapped by nodes.get(parentNode)
 	 * and the corresponding keySet of the Hashmap
 	 */
 	
 	// Required a change to remove reflexive edge functionality, this change was done by changing the 
 	// if statement on line 117 to include a check if parent and child node were not equal
-	public void addEdge(String parentNode, String childNode, String edgeLabel)
+	public void addEdge(K parentNode, K childNode, V edgeLabel)
 	{// Add edge modifies, so checks Rep at the start and end, adds a new node if keyset contains both nodes
 	//	checkRep();
 		if(parentNode != childNode && this.nodes.containsKey(parentNode) && this.nodes.containsKey(childNode))
@@ -122,7 +124,7 @@ public class Graph {
 			}
 			else
 			{
-				ArrayList <String> temp = new ArrayList<String> (1); // Does not check if edgelabel is null
+				ArrayList <V> temp = new ArrayList<V>(1); // Does not check if edgelabel is null
 				temp.add(edgeLabel);						// Would violate invariant, handled by checkRep
 				this.nodes.get(parentNode).put(childNode, temp);
 			}
@@ -138,12 +140,12 @@ public class Graph {
 	 * @effects N/A
 	 * @modifies N/A
 	 */
-	public Iterator<String> listNodes()
+	public Iterator<K> listNodes()
 	{ // As listNode does not modify anything, it has checkReps commented out, sorts using a new TreeSet
 	//	checkRep();
-		Set<String> list_of_nodes = new TreeSet<String>();
+		Set<K> list_of_nodes = new TreeSet<K>();
 		list_of_nodes.addAll(this.nodes.keySet());
-		Iterator<String> graph_it = list_of_nodes.iterator();
+		Iterator<K> graph_it = list_of_nodes.iterator();
 	//	checkRep();
 		return graph_it;
 	}
@@ -151,7 +153,7 @@ public class Graph {
 	 * @param 
 	 * @returns returns If parentNode is not in the keySet then it returns null, if the keySet is empty
 	 * then it returns null. If parentNode is in the keySet then it returns an iterator to a new TreeSet 
-	 * containing each edgeLabel in every ArrayList<String> mapped to by each key in the keySet of the
+	 * containing each edgeLabel in every ArrayList<V> mapped to by each key in the keySet of the
 	 * HashMap mapped to by the parentNode.
 	 * 
 	 * The iterator returns the list of childNode(edgeLabel) in lexicographical (alphabetical) order 
@@ -173,14 +175,15 @@ public class Graph {
 		if(this.nodes.get(parentNode) != null) // Iterates through keyset and array length for a node
 		{ // Concatenates the strings, sorts them, then returns an iterator of this new sorted list.
 			ArrayList<String> list_of_children = new ArrayList<String>();
-			Iterator<String> key_it = this.nodes.get(parentNode).keySet().iterator();
+			Iterator<K> key_it = this.nodes.get(parentNode).keySet().iterator();
 			while(key_it.hasNext())
 			{
-				String curr_key = key_it.next();
+				K curr_key = key_it.next();
 				int arr_length = this.nodes.get(parentNode).get(curr_key).size();
 				for(int i = 0; i < arr_length; i++)
-				{
-					list_of_children.add(curr_key.concat("(").concat(this.nodes.get(parentNode).get(curr_key).get(i).concat(")")));
+				{ // casting to String, idk if it'll work
+				//	list_of_children.add((curr_key).concat("(").concat(this.nodes.get(parentNode).get(curr_key).get(i).concat(")")));
+					list_of_children.add(curr_key.toString() + "(" + this.nodes.get(parentNode).get(curr_key).get(i).toString() + ")");
 				}
 			}
 			list_of_children.sort(null);
@@ -227,10 +230,10 @@ public class Graph {
 		{
             throw new RuntimeException("a key in nodes maps to null");
 		}
-		Iterator<String> node_it = this.nodes.keySet().iterator();
-		Iterator<String> chil_it;
-		String node_key;
-		String chil_key;
+		Iterator<K> node_it = this.nodes.keySet().iterator();
+		Iterator<K> chil_it;
+		K node_key;
+		K chil_key;
 		while(node_it.hasNext())
 		{
 			node_key = node_it.next();

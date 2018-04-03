@@ -29,10 +29,11 @@ import hw4.Graph;
  * 		*It is the same as a Graph
  * 		*Each key is a character from the Marvel Universe, or whatever file is read
  * 		*Each edge is a shared comic book between two characters and is labeled as such.
+ * 		*Graph is using Strings for the nodes and Strings for the edge labels
  */
 
 public class MarvelPaths {
-    private Graph graph;
+    private Graph<String, String> graph;
     
     /**
 	 * @param N/A
@@ -44,7 +45,7 @@ public class MarvelPaths {
 	 */
     public MarvelPaths()
 	{
-		this.graph = new Graph();
+		this.graph = new Graph<String, String>();
 		checkRep();
 	}
    
@@ -76,7 +77,7 @@ public class MarvelPaths {
 			String Marvel_book;
 			String Marvel_pair_1;
 			String Marvel_pair_2;
-			this.graph = new Graph(); // Creates the new graph, removing any previous elements
+			this.graph = new Graph<String, String>(); // Creates the new graph, removing any previous elements
 			while(Marvel_char_it.hasNext()) // Adds nodes to graph for every Marvel Character found
 			{
 				Marvel_character = Marvel_char_it.next();
@@ -258,11 +259,11 @@ public class MarvelPaths {
 			}
 		}
 	}
-//	public static void main(String[] arg)
-//	{
-//		String file = arg[0];
-//		MarvelPaths Marvel = new MarvelPaths();	
-//		Marvel.createNewGraph(file);
-//		System.out.println(Marvel.findPath("Chicken", "Drake"));
-//	}
+	public static void main(String[] arg)
+	{
+		String file = arg[0];
+		MarvelPaths Marvel = new MarvelPaths();	
+		Marvel.createNewGraph(file);
+		System.out.println(Marvel.findPath("CALLISTO", "SIF"));
+	}
 }
