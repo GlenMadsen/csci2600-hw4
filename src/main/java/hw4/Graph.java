@@ -79,6 +79,7 @@ public class Graph<K, V> {
 			HashMap<K, ArrayList<V> > temp = new HashMap<K, ArrayList<V> >();
 			this.nodes.put(nodeData, temp);
 		}
+		System.out.println(nodeData);
 	//	checkRep();
 	}
 

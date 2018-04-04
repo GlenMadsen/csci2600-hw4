@@ -363,12 +363,12 @@ public class MarvelPaths2 {
 //			}
 //		}
 //	}
-	public static void main(String[] arg)
-	{
-		String file = arg[0];
-		MarvelPaths2 Marvel = new MarvelPaths2();	
-		Marvel.createNewGraph(file);
-		//System.out.println(Marvel.findPath("Alpaca", "Bear"));
-		System.out.println(Marvel.findPath("SIF", "RAMBO"));
-	}
+//	public static void main(String[] arg)
+//	{
+//		String file = arg[0];
+//		MarvelPaths2 Marvel = new MarvelPaths2();	
+//		Marvel.createNewGraph(file);
+//		//System.out.println(Marvel.findPath("Alpaca", "Bear"));
+//		System.out.println(Marvel.findPath("SIF", "RAMBO"));
+//	}
 }
