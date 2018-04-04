@@ -24,6 +24,14 @@ public final class GraphWrapperTest {
 		assertEquals(gr_it.next(), "A");
 	}
 	@Test
+	public void list_One_Node_ofGraph() // Checks if one node can be successfully added and listed
+	{
+		Graph<String, String> g= new Graph<String, String>();
+		g.addNode("A");
+		Iterator<String> gr_it = g.listNodes();
+		assertEquals(gr_it.next(), "A");
+	}
+	@Test
 	public void list_Two_Node() // Checks if two nodes can be successfully added and listed
 	{
 		GraphWrapper gr = new GraphWrapper();

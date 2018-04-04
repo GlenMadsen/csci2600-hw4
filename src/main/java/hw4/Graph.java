@@ -116,7 +116,7 @@ public class Graph<K, V> {
 	public void addEdge(K parentNode, K childNode, V edgeLabel)
 	{// Add edge modifies, so checks Rep at the start and end, adds a new node if keyset contains both nodes
 	//	checkRep();
-		if(parentNode != childNode && this.nodes.containsKey(parentNode) && this.nodes.containsKey(childNode))
+		if(!parentNode.equals(childNode) && this.nodes.containsKey(parentNode) && this.nodes.containsKey(childNode))
 		{
 			if(this.nodes.get(parentNode).containsKey(childNode))
 			{
@@ -124,7 +124,7 @@ public class Graph<K, V> {
 			}
 			else
 			{
-				ArrayList <V> temp = new ArrayList<V>(1); // Does not check if edgelabel is null
+				ArrayList <V> temp = new ArrayList<V>(); // Does not check if edgelabel is null
 				temp.add(edgeLabel);						// Would violate invariant, handled by checkRep
 				this.nodes.get(parentNode).put(childNode, temp);
 			}

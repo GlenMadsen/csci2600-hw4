@@ -54,7 +54,7 @@ public class MarvelPaths2 {
     public MarvelPaths2()
 	{
 		this.graph = new Graph<String, Double>();
-		checkRep();
+		//checkRep();
 	}
     public void addNode(String nodeData) // Instance field so it gets these methods from Graph
     {
@@ -83,7 +83,7 @@ public class MarvelPaths2 {
  */  
 	public void createNewGraph(String filename) // Reads a file and then constructs a graph of type Graph
 	{
-		checkRep();
+		//checkRep();
 		try // Encapsulated within a try due to calling readData from MarvelParser 
 		{  // Constructs necessary variables for readData
 			Map<String, Set<String>> charsInBooks = new HashMap<String,Set<String> >();
@@ -158,11 +158,11 @@ public class MarvelPaths2 {
 //					System.out.println(1/Pseudo.get(Pseudo_nxt));
 //				}
 			}
-			checkRep();
+		//	checkRep();
 		}
 		catch (IOException e) // Catches any exceptions caused by a bad file
 		{
-			checkRep();
+			//checkRep();
 			e.printStackTrace();
 		}
 	}
@@ -179,7 +179,7 @@ public class MarvelPaths2 {
 	 */ 
 	public String findPath(String node1, String node2)
 	{ // Via Dijkstra's, returns the path with the lowest weight
-		checkRep();
+		//checkRep();
 		String path = "";
 		String temp_node;
 		String start = node1; // Creates new variables for the start and dest nodes, begins to check
@@ -222,8 +222,6 @@ public class MarvelPaths2 {
 			path = path.concat(String.format("total cost: %.3f\n", 0.00));
 			return path;
 		}
-		String node;
-		String child;
 		// Priority Queue and Comparator for sorting based off weight
 		PriorityQueue<Pair<String, Double> > H = new PriorityQueue<Pair<String, Double>>(new Comparator<Pair<String, Double>>() {  
 
@@ -240,12 +238,25 @@ public class MarvelPaths2 {
 		HashMap<String, Double> D = new HashMap<String, Double>();
 		HashMap<String, Pair<String, Double>> P = new HashMap<String, Pair<String, Double> >();
 		Iterator<String> node_it = this.graph.listNodes(); // iterates through all the nodes
+		String node;
+		String child;
 		while(node_it.hasNext()) // Setting distances to infinity initially
 		{
 			node = node_it.next();
 			D.put(node, Double.POSITIVE_INFINITY);
 		}
 		D.put(start, 0.00); // Adds the initial node with distance 0
+		node_it = this.graph.listChildren(start); // Adds all the nodes to the priority Q
+//		while(node_it.hasNext())
+//		{
+//			node = node_it.next();
+//			String Reversed = MarvelPaths.ReverseString(node);
+//			node = Reversed.substring(Reversed.indexOf("(")+1);
+//			node = MarvelPaths.ReverseString(node);
+//		//	System.out.println(node);
+//			Pair<String, Double> tempPair = new Pair<String, Double>(node, D.get(node));
+//			H.add(tempPair);
+//		}
 		node_it = this.graph.listNodes(); // Adds all the nodes to the priority Q
 		while(node_it.hasNext())
 		{
@@ -254,61 +265,51 @@ public class MarvelPaths2 {
 			H.add(tempPair);
 			P.put(node, null);
 		}		
+		
+		String Reversed;
+		Double sum;
+		String book_name;
+		String tempPair;
+		
 		while(!H.isEmpty()) // Performs Dijkstra's until it is empty
 		{ // Gets the minimum value and puts the node, double into a pair, then remove the value
-			Pair<String, Double> tempPair = new Pair<String, Double>(H.peek().getKey(), H.peek().getValue());
-			H.poll();
-			if(tempPair.getKey().equals(dest)) // If dest=temp then it breaks, we've reached our destination
+			tempPair = H.remove().getKey();
+			if(tempPair.equals(dest)) // If dest=temp then it breaks, we've reached our destination
 			{
 				break;
 			}
-			Iterator<String> edge_it = this.graph.listChildren(tempPair.getKey());
+			Iterator<String> edge_it = this.graph.listChildren(tempPair);
+			
 			while(edge_it.hasNext()) // Otherwise it gets the edgeweights for each child and tries to go along
 			{ 
 				child = edge_it.next(); // Has to do some parsing of output
-				String Reversed = MarvelPaths.ReverseString(child);
+				Reversed = MarvelPaths.ReverseString(child);
+				book_name = Reversed.substring(Reversed.indexOf(")")+1, Reversed.indexOf("("));
+				book_name = MarvelPaths.ReverseString(book_name);
 				child = Reversed.substring(Reversed.indexOf("(")+1);
 				child = MarvelPaths.ReverseString(child);
-				Iterator<String> counter = this.graph.listChildren(tempPair.getKey());
-				Double sum = Double.POSITIVE_INFINITY; // Finds the edge weight in this loop
-				String temp_c;				
-				while(counter.hasNext())
-				{ 
-					temp_c = counter.next(); // More parsing
-    				Reversed = MarvelPaths.ReverseString(temp_c);
-    				String book_name;
-					temp_c = Reversed.substring(Reversed.indexOf("(")+1);
-					temp_c = MarvelPaths.ReverseString(temp_c);
-					book_name = Reversed.substring(Reversed.indexOf(")")+1, Reversed.indexOf("("));
-					book_name = MarvelPaths.ReverseString(book_name);
-					if(temp_c.equals(child)) // Finds the edge with the minimum weight in lexicographic order
-					{ // Because it is just going through children, needs to check child is equal
-						if(Double.parseDouble(book_name)<sum) // converts to double the check if its less
-						{
-							sum = Double.parseDouble(book_name);
-						}
-					}
-				} // Checks to see if it should add to the Priority Queue
-				if(D.get(child) > (D.get(tempPair.getKey()) + sum))
+				sum = Double.parseDouble(book_name);
+				 // Checks to see if it should add to the Priority Queue
+				
+				if(D.get(child) > (D.get(tempPair) + sum))
 				{
-					D.put(child, D.get(tempPair.getKey()) + sum); // Updates the distance
-					P.put(child, tempPair); // Updates the path list
-					Pair<String, Double> tempPair2 = new Pair<String, Double>(child, D.get(child));
-					H.remove(tempPair); // Creates new pair for Priority Queue and updates old one.
-					H.add(tempPair2);
+					D.put(child, D.get(tempPair) + sum); // Updates the distance
+					P.put(child, new Pair<String, Double>(tempPair, D.get(tempPair))); // Updates the path list
+					//H.remove(tempPair); // Creates new pair for Priority Queue and updates old one.
+					H.add(new Pair<String, Double>(child, D.get(child)));
 				}
 			}
 		}
-		//System.out.println(P);
+//--------------------------------------------------------------------------------------------------------		
 		path = "path from ".concat(start).concat(" to ").concat(dest).concat(":\n"); // Creates path start
 		if(P.get(dest) == null) // If there is no path initially then outputs null
 		{
 			return path.concat("no path found\n");
 		}
 		String nxt = P.get(dest).getKey(); // Begins to recreate the path off Prev data
-		Double l = D.get(dest);
 		ArrayList<String> Path = new ArrayList<String>();
 		Path.add(dest);
+		
 		while(nxt != null) // Keeps looping until it hits null
 		{
 			if(nxt != null)
@@ -321,56 +322,53 @@ public class MarvelPaths2 {
 			}
 			nxt = P.get(nxt).getKey(); // Gets the next node
 		}
-		ArrayList<String> PathReverse = new ArrayList<String>(); // Since the path is backwards we will
-		for(int i = Path.size()-1; i >= 0; i--) // Reverse it, not the most efficient but conveniant
-		{
-			PathReverse.add(Path.get(i));
-		}
-		Pair<Double, ArrayList<String> > Shortest = new Pair<Double, ArrayList<String> >(l, PathReverse);
 		
-		for(int i = 1; i < Shortest.getValue().size(); i++) // Go through it again but making 'path'
+		for(int i = Path.size()-1; i > 0; i--) // Go through it again but making 'path'
 		{ // To get the distance between two nodes I use the difference in D, which keeps a running sum, leaving the actual weight
-			String temp_path = String.format(PathReverse.get(i-1).concat(" to ").concat(PathReverse.get(i)).concat(" with weight %.3f\n"), D.get(PathReverse.get(i))-D.get(PathReverse.get(i-1))
+			String temp_path = String.format(Path.get(i).concat(" to ").concat(Path.get(i-1)).concat(" with weight %.3f\n"), D.get(Path.get(i-1))-D.get(Path.get(i))
 					);
 			path = path.concat(temp_path);
 		}
-		path = path.concat(String.format("total cost: %.3f\n", D.get(PathReverse.get(Shortest.getValue().size()-1))));
+		path = path.concat(String.format("total cost: %.3f\n", D.get(dest)));
 		return path; // Return path
 	}
-	private void checkRep() throws RuntimeException
-	{// Only thing checkRep() does not check is for duplicate nodes, which is handled natively by the Set
-	 // class in Java so they will never be present.
-		if(graph == null)
-		{
-            throw new RuntimeException("graph == null");
-		}
-		Iterator<String> node_it = graph.listNodes();
-		Iterator<String> chil_it;
-		String node_key;
-		String chil_key;
-		while(node_it.hasNext())
-		{
-			node_key = node_it.next();
-			chil_it = graph.listChildren(node_key);
-			if(node_key == null)
-			{
-				throw new RuntimeException("A node's HashMap of it's children keyset is null");
-			}
-			while(chil_it.hasNext())
-			{
-				chil_key = chil_it.next();
-				if(chil_key == null)
-				{
-					throw new RuntimeException("The ArrayList<String> of edge labels for a child contains null");
-				}
-			}
-		}
-	}
-//	public static void main(String[] arg)
-//	{
-//		String file = arg[0];
-//		MarvelPaths2 Marvel = new MarvelPaths2();	
-//		Marvel.createNewGraph(file);
-//		System.out.println(Marvel.findPath("Stop", "Zephyr"));
+	
+
+//	private void checkRep() throws RuntimeException
+//	{// Only thing checkRep() does not check is for duplicate nodes, which is handled natively by the Set
+//	 // class in Java so they will never be present.
+//		if(graph == null)
+//		{
+//            throw new RuntimeException("graph == null");
+//		}
+//		Iterator<String> node_it = graph.listNodes();
+//		Iterator<String> chil_it;
+//		String node_key;
+//		String chil_key;
+//		while(node_it.hasNext())
+//		{
+//			node_key = node_it.next();
+//			chil_it = graph.listChildren(node_key);
+//			if(node_key == null)
+//			{
+//				throw new RuntimeException("A node's HashMap of it's children keyset is null");
+//			}
+//			while(chil_it.hasNext())
+//			{
+//				chil_key = chil_it.next();
+//				if(chil_key == null)
+//				{
+//					throw new RuntimeException("The ArrayList<String> of edge labels for a child contains null");
+//				}
+//			}
+//		}
 //	}
+	public static void main(String[] arg)
+	{
+		String file = arg[0];
+		MarvelPaths2 Marvel = new MarvelPaths2();	
+		Marvel.createNewGraph(file);
+		//System.out.println(Marvel.findPath("Alpaca", "Bear"));
+		System.out.println(Marvel.findPath("SIF", "RAMBO"));
+	}
 }

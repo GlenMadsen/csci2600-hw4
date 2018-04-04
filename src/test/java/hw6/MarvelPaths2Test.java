@@ -6,11 +6,7 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-import hw4.GraphWrapper;
-
 public final class MarvelPaths2Test {
-	private final double JUNIT_DOUBLE_DELTA = 0.00001;
-	
 	@Test
 	public void Test_Graph_Creation() // Passes the Representation Invariant on Creation (does not crash)
 	{
@@ -200,6 +196,7 @@ public final class MarvelPaths2Test {
 		Mar.addEdge("Google", "Ebay", 1.00);
 		Mar_it = Mar.listChildren("Apple");
 		assertEquals(Mar_it.next(), "Amazon(0.01)");
+		assertEquals(Mar_it.next(), "Google(0.01)");
 		Mar_it = Mar.listChildren("Google");
 		assertEquals(Mar_it.next(), "Ebay(1.0)");
 		Mar_it = Mar.listNodes();
