@@ -97,7 +97,10 @@ public class MarvelPaths {
 					  // Also if trying to add an edge to itself, graph.addEdge handles the case and does
 					  // not allow for reflexive edges, instead doing nothing.
 						Marvel_pair_2 = Marvel_pair_it_2.next();
-						this.graph.addEdge(Marvel_pair_1, Marvel_pair_2, Marvel_book);
+						if(!Marvel_pair_1.equals(Marvel_pair_2))
+						{
+							this.graph.addEdge(Marvel_pair_1, Marvel_pair_2, Marvel_book);
+						}
 					}
 				}
 			}
