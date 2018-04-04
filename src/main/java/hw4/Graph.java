@@ -79,7 +79,7 @@ public class Graph<K, V> {
 			HashMap<K, ArrayList<V> > temp = new HashMap<K, ArrayList<V> >();
 			this.nodes.put(nodeData, temp);
 		}
-		System.out.println(nodeData);
+		System.out.println("node: " + nodeData);
 	//	checkRep();
 	}
 
@@ -117,6 +117,7 @@ public class Graph<K, V> {
 	public void addEdge(K parentNode, K childNode, V edgeLabel)
 	{// Add edge modifies, so checks Rep at the start and end, adds a new node if keyset contains both nodes
 	//	checkRep();
+		System.out.println("edge: " + parentNode + " -> " + childNode + " : " + edgeLabel + " |");
 		if(!parentNode.equals(childNode) && this.nodes.containsKey(parentNode) && this.nodes.containsKey(childNode))
 		{
 			if(this.nodes.get(parentNode).containsKey(childNode))
