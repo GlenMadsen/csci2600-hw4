@@ -41,7 +41,7 @@ import javafx.util.Pair;
  */
 
 public class MarvelPaths2 {
-    private Graph<String, Double> graph;
+    private Graph<String, Double> graph; // Using Generics String and Double for MarvelPaths2
     
     /**
 	 * @param N/A
@@ -57,7 +57,7 @@ public class MarvelPaths2 {
 		//checkRep();
 	}
     public void addNode(String nodeData) // Instance field so it gets these methods from Graph
-    {
+    { // Since I believe we were intended to. Same specs as is graph.
     	this.graph.addNode(nodeData);
     }
 
@@ -76,14 +76,16 @@ public class MarvelPaths2 {
     /** @param: filename The path to the "CSV" file that contains the <hero, book> pairs   
    * @returns: N\A
    * @requires: N\A                                                                                             
-   * @modifies: MarvelPaths private variable graph, both its keyset and values
+   * @modifies: MarvelPaths2 private variable graph, both its keyset and values
    * @effects: the graph variable has nodes added for every hero from the file and edges added between every
-   * 		   hero with which they share a comic book with, also read in from the file.
+   * 		   hero with which they share a comic book with, also read in from the file. There should 
+   * 		   initially only be ever one edge between every character despite the number of comic books shared
+   * 		   where the label is 1/Number of Comic Books shared as a stored double.
    * @throws: N/A                                                                                
  */  
 	public void createNewGraph(String filename) // Reads a file and then constructs a graph of type Graph
 	{
-		//checkRep();
+		//checkRep();  Probably wouldn't really checkRep here since graph is empty.
 		try // Encapsulated within a try due to calling readData from MarvelParser 
 		{  // Constructs necessary variables for readData
 			Map<String, Set<String>> charsInBooks = new HashMap<String,Set<String> >();
@@ -91,7 +93,6 @@ public class MarvelPaths2 {
 			// Below is a set of all characters found
 			Set<String> chars = new HashSet<String>();
 			MarvelParser.readData(filename,charsInBooks,chars);
-			// x`System.out.println("Read "+chars.size()+" characters who appear in "+charsInBooks.keySet().size() +" books.");
 			// Creates variables and iterators for parsing the data into character, book, and pairs
 			Iterator<String> Marvel_char_it = chars.iterator();
 			Iterator<String> Marvel_book_it = charsInBooks.keySet().iterator();
@@ -103,67 +104,58 @@ public class MarvelPaths2 {
 			String Marvel_pair_2;
 			this.graph = new Graph<String, Double>(); // Creates the new graph, removing any previous elements
 			HashMap<Pair<String, String>, Double> Pseudo = new HashMap<Pair<String, String>, Double>();
+			
 			while(Marvel_char_it.hasNext()) // Adds nodes to graph for every Marvel Character found
 			{
 				Marvel_character = Marvel_char_it.next();
 		    	this.graph.addNode(Marvel_character);
 			}
+			
 			while(Marvel_book_it.hasNext()) // Iterates through every comic book
 			{
 				Marvel_book = Marvel_book_it.next();
 				Marvel_pair_it_1 = charsInBooks.get(Marvel_book).iterator();
+				
 				while(Marvel_pair_it_1.hasNext()) // Iterates through every character
 				{
 					Marvel_pair_1 = Marvel_pair_it_1.next();
 					Marvel_pair_it_2 = charsInBooks.get(Marvel_book).iterator();
+					
 					while(Marvel_pair_it_2.hasNext()) // Iterates through every character again,
 					{ // So for every character, an edge is created from that character to every other
 					  // character, and this is done in both directions.
 					  // Also if trying to add an edge to itself, graph.addEdge handles the case and does
 					  // not allow for reflexive edges, instead doing nothing.
 						Marvel_pair_2 = Marvel_pair_it_2.next();
+						
 						if(!Marvel_pair_1.equals(Marvel_pair_2))
 						{
 							Pair<String,String> temp_pair = new Pair<String, String>(Marvel_pair_1,Marvel_pair_2);
-//							if(Marvel_pair_1.equals("Alpaca"))
-//							{
-//								System.out.println(Marvel_pair_2);
-//								System.out.println(Pseudo.get(temp_pair));
-//							}
+							
 							if(Pseudo.get(temp_pair) == null)
 							{
-								Pseudo.put(temp_pair, 0.00);
+								Pseudo.put(temp_pair, 0.00); // Puts the pairs into Pseudo initially if not there
 							}
-							Pseudo.put(temp_pair, 1.00+Pseudo.get(temp_pair));
-//							if(Marvel_pair_1.equals("Alpaca"))
-//							{
-//								System.out.println(Marvel_pair_2 + "Testtttt");
-//								Pair<String,String> temp_or = new Pair<String, String>(Marvel_pair_1,"Bat");
-//								System.out.println(Pseudo.get(temp_or));
-//							}
+							
+							Pseudo.put(temp_pair, 1.00+Pseudo.get(temp_pair)); // Then actually adds one to it
 						}
 					}
 				}
 			}
-			Iterator<Pair<String, String>> Pseudo_it = Pseudo.keySet().iterator();
-			Pair<String, String> Pseudo_nxt;
-			while(Pseudo_it.hasNext())
+			Iterator<Pair<String, String>> Pseudo_it = Pseudo.keySet().iterator(); // Parses Pseudo and actually
+			Pair<String, String> Pseudo_nxt; // Builds my graph object now that it knows the total number of
+			
+			while(Pseudo_it.hasNext()) // edges between each node.
 			{
 				Pseudo_nxt = Pseudo_it.next();
 				this.graph.addEdge(Pseudo_nxt.getKey(), Pseudo_nxt.getValue(), 1/Pseudo.get(Pseudo_nxt));
-//				this.graph.addEdge(Pseudo_nxt.getValue(), Pseudo_nxt.getKey(), 1/Pseudo.get(Pseudo_nxt));
-//				if(Pseudo_nxt.getKey().equals("Alpaca"))
-//				{
-//					System.out.println(Pseudo_nxt.getValue());
-//					System.out.println(1/Pseudo.get(Pseudo_nxt));
-//				}
 			}
-		//	checkRep();
+			//checkRep();
 		}
-		catch (IOException e) // Catches any exceptions caused by a bad file
+		catch (IOException e) // Catches any IOExceptions caused that were not caught in Parser
 		{
 			//checkRep();
-			e.printStackTrace();
+			//e.printStackTrace(); I would print stack trace but Submitty says console should be empty
 		}
 	}
 	   /** @param: two Strings node1, node2 which represent the start and end locations respectively   
@@ -171,7 +163,8 @@ public class MarvelPaths2 {
 	   * 		   A string which states that no path between the points were found in the Graph
 	   *           A string which implies that the start node is the same as the destination
 	   *           A string which describes every step of the path, including the intermediary nodes and
-	   *             the edge labels it traverses on from starting node to ending node.
+	   *             the edge labels it traverses on from starting node to ending node. Then it outputs
+	   *             the sum of the edge labels at the end as total cost, since every edge label is a weight
 	   * @requires: N\A                                                                                             
 	   * @modifies: N\A
 	   * @effects: N\A
@@ -187,6 +180,7 @@ public class MarvelPaths2 {
 		int node1_present = 0;
 		int node2_present = 0;
 		Iterator<String> node_iter = this.graph.listNodes(); // Checks if nodes exist in the graph
+		
 		while(node_iter.hasNext())
 		{
 			temp_node = node_iter.next();
@@ -199,6 +193,7 @@ public class MarvelPaths2 {
 				node2_present++;
 			}
 		}
+		
 		if(node1_present != 1 || node2_present != 1) // Otherwise returns specified output
 		{ 
 			if(node1.equals(node2))
@@ -214,14 +209,18 @@ public class MarvelPaths2 {
 			{ 
 				path = path.concat("unknown character " + dest + "\n");
 			}
+			//checkRep();
 			return path;
 		}
+		
 		if(start.equals(dest)) // If nodes are in path but are equal then returns path of weight 0
 		{
 			path = "path from ".concat(start).concat(" to ").concat(dest).concat(":\n");
 			path = path.concat(String.format("total cost: %.3f\n", 0.00));
+			//checkRep();
 			return path;
 		}
+		
 		// Priority Queue and Comparator for sorting based off weight
 		PriorityQueue<Pair<String, Double> > H = new PriorityQueue<Pair<String, Double>>(new Comparator<Pair<String, Double>>() {  
 
@@ -234,30 +233,22 @@ public class MarvelPaths2 {
                     return 0;
 			}      
         });
-		// Hashmap of destinces followed by a HashMap of Paths
+		
+		// Hashmap of distances followed by a HashMap of Paths
 		HashMap<String, Double> D = new HashMap<String, Double>();
 		HashMap<String, Pair<String, Double>> P = new HashMap<String, Pair<String, Double> >();
 		Iterator<String> node_it = this.graph.listNodes(); // iterates through all the nodes
 		String node;
 		String child;
+		
 		while(node_it.hasNext()) // Setting distances to infinity initially
 		{
 			node = node_it.next();
 			D.put(node, Double.POSITIVE_INFINITY);
 		}
 		D.put(start, 0.00); // Adds the initial node with distance 0
-		node_it = this.graph.listChildren(start); // Adds all the nodes to the priority Q
-//		while(node_it.hasNext())
-//		{
-//			node = node_it.next();
-//			String Reversed = MarvelPaths.ReverseString(node);
-//			node = Reversed.substring(Reversed.indexOf("(")+1);
-//			node = MarvelPaths.ReverseString(node);
-//		//	System.out.println(node);
-//			Pair<String, Double> tempPair = new Pair<String, Double>(node, D.get(node));
-//			H.add(tempPair);
-//		}
-		node_it = this.graph.listNodes(); // Adds all the nodes to the priority Q
+		node_it = this.graph.listNodes(); // Adds all the nodes to the priority Queue
+		
 		while(node_it.hasNext())
 		{
 			node = node_it.next();
@@ -265,12 +256,13 @@ public class MarvelPaths2 {
 			H.add(tempPair);
 			P.put(node, null);
 		}		
-		
+		// Some more variables, no point in creating them until we know we have to look for a path
 		String Reversed;
 		Double sum;
 		String book_name;
 		String tempPair;
-		
+		// Performs Dijkstra's in a similar way to the way we did in lab, it is more efficient than the
+		// method described in the html doc, though I do have to simulate a heapDict using pairs.
 		while(!H.isEmpty()) // Performs Dijkstra's until it is empty
 		{ // Gets the minimum value and puts the node, double into a pair, then remove the value
 			tempPair = H.remove().getKey();
@@ -285,7 +277,7 @@ public class MarvelPaths2 {
 				child = edge_it.next(); // Has to do some parsing of output
 				Reversed = MarvelPaths.ReverseString(child);
 				book_name = Reversed.substring(Reversed.indexOf(")")+1, Reversed.indexOf("("));
-				book_name = MarvelPaths.ReverseString(book_name);
+				book_name = MarvelPaths.ReverseString(book_name); // Gets the weight
 				child = Reversed.substring(Reversed.indexOf("(")+1);
 				child = MarvelPaths.ReverseString(child);
 				sum = Double.parseDouble(book_name);
@@ -293,17 +285,18 @@ public class MarvelPaths2 {
 				
 				if(D.get(child) > (D.get(tempPair) + sum))
 				{
-					D.put(child, D.get(tempPair) + sum); // Updates the distance
+					D.put(child, D.get(tempPair) + sum); // Updates the distance in D
 					P.put(child, new Pair<String, Double>(tempPair, D.get(tempPair))); // Updates the path list
-					//H.remove(tempPair); // Creates new pair for Priority Queue and updates old one.
-					H.add(new Pair<String, Double>(child, D.get(child)));
+					H.add(new Pair<String, Double>(child, D.get(child))); // Adds the new pair to H
 				}
 			}
 		}
+// From here on I build the path since Dijkstra's is done and the shortest path may or may not exist
 //--------------------------------------------------------------------------------------------------------		
 		path = "path from ".concat(start).concat(" to ").concat(dest).concat(":\n"); // Creates path start
 		if(P.get(dest) == null) // If there is no path initially then outputs null
 		{
+			//checkRep();
 			return path.concat("no path found\n");
 		}
 		String nxt = P.get(dest).getKey(); // Begins to recreate the path off Prev data
@@ -330,10 +323,22 @@ public class MarvelPaths2 {
 			path = path.concat(temp_path);
 		}
 		path = path.concat(String.format("total cost: %.3f\n", D.get(dest)));
+		//checkRep();
 		return path; // Return path
 	}
 	
-
+// I would checkRep in my function and it doesn't slow it down too much, but it is an expensive check
+// and I do not know what scale of test cases I must pass in the hidden test cases and I believe I am 
+// allowed to comment it out for that sake so.
+	/**
+     * Checks that the representation invariant holds
+	 * @param N/A
+	 * @returns N/A
+	 * @throws Runtime Exceptions if representation invariant is violated.
+	 * @requires N/A
+	 * @effects N/A
+	 * @modifies N/A
+	 */
 //	private void checkRep() throws RuntimeException
 //	{// Only thing checkRep() does not check is for duplicate nodes, which is handled natively by the Set
 //	 // class in Java so they will never be present.
@@ -362,7 +367,7 @@ public class MarvelPaths2 {
 //				}
 //			}
 //		}
-//	}
+//	} Commented out main method since it is unneeded.
 //	public static void main(String[] arg)
 //	{
 //		String file = arg[0];

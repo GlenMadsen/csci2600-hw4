@@ -109,7 +109,7 @@ public class MarvelPaths {
 		catch (IOException e) // Catches any exceptions caused by a bad file
 		{
 			checkRep();
-			e.printStackTrace();
+			//e.printStackTrace(); I would print stack trace but Submitty says console should be empty
 		}
 	}
 	   /** @param: two Strings node1, node2 which represent the start and end locations respectively   

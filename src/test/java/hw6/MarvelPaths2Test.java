@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import java.util.Iterator;
 
 import org.junit.Test;
-
+//A lot of these test cases are similar to the ones in hw5, these mainly just test that the program works
+//as intended and ensures code coverage. I do have other test cases at the bottom to check corner cases
 public final class MarvelPaths2Test {
 	@Test
 	public void Test_Graph_Creation() // Passes the Representation Invariant on Creation (does not crash)
@@ -131,7 +132,7 @@ public final class MarvelPaths2Test {
 		assertEquals("path from Railroad to Zephyr:\n"+"Railroad to Stop with weight 1.000\n"+"Stop to Trade Winds with weight 1.000\n" + "Trade Winds to U with weight 1.000\n" + "U to Violin with weight 1.000\n" + "Violin to Why with weight 1.000\n" + "Why to Xylophone with weight 1.000\n" + "Xylophone to Zephyr with weight 1.000\ntotal cost: 7.000\n",answer);	
 	}
 	@Test
-	public void Interconnected() // Checks if a graph uses the correct path (length 1 since fully connected)
+	public void Interconnected() // Checks if a graph uses the correct path (length .167 since fully connected)
 	{ // Also it should be in alphabetical order, so always using the L path.
 		String filename = "data/Alphabetical_Animals.csv";
 		String answer;
@@ -181,8 +182,27 @@ public final class MarvelPaths2Test {
 		assertEquals("path from Drake to Wyrm:\nDrake to Dragon with weight 0.333\nDragon to Naga with weight 0.250\nNaga to Wyrm with weight 0.333\ntotal cost: 0.917\n",answer);
 	}
 	@Test
-	public void Graph_List_Checks_Tech() // Lists two children in alphabetical order by edge
+	public void Only_One_Edge() // Tests that despite multiple edges, there is only one edge initially
+	// between two nodes, and that when another edge is added it is counted.
 	{
+		String filename = "data/Larger_Test.csv";
+		MarvelPaths2 Mar = new MarvelPaths2();
+		Mar.createNewGraph(filename);
+		Iterator<String> Mar_it = Mar.listChildren("Drake");
+		assertEquals("Dragon(0.3333333333333333)", Mar_it.next());
+		assertEquals("Serpent(0.25)", Mar_it.next());
+		assertEquals("Wyvern(0.3333333333333333)", Mar_it.next());
+		Mar.addEdge("Drake", "Serpent", 0.101);
+		Mar_it = Mar.listChildren("Drake");
+		assertEquals("Dragon(0.3333333333333333)", Mar_it.next());
+		assertEquals("Serpent(0.101)", Mar_it.next());
+		assertEquals("Serpent(0.25)", Mar_it.next());
+		assertEquals("Wyvern(0.3333333333333333)", Mar_it.next());
+		
+	}
+	@Test
+	public void Graph_List_Checks_Tech() // Checks if the addNode and addEdge functionality work, since
+	{ // we were told our graph was supposed to take this into account, even if we don't use it here?
 		MarvelPaths2 Mar = new MarvelPaths2();
 		Mar.addNode("Apple");
 		Mar.addNode("Google");
