@@ -87,46 +87,8 @@ public class CampusView
 		return "The Commands List: 'b', 'r', 'q', 'm'.";
 
 	}
-	private static String Other_Command() 
+	public static String Other_Command() 
 	{
 		return "Unknown option\n";
-	}
-	public static void main(String args[])
-	{
-		String nodes_file = "data/RPI_map_data_Nodes.csv";
-		String edge_file = "data/RPI_map_data_Edges.csv";
-		CampusPaths CampusMap = new CampusPaths();
-		CampusMap.createNewGraph(nodes_file, edge_file);
-		String temp1;
-		String temp2;
-		String line;
-        Scanner sc = new Scanner(System.in);
-		while (true)
-		{
-			line = sc.nextLine();
-			if(line.equals("b"))
-			{
-				System.out.print(B_Command(CampusMap));
-			}
-			if(line.equals("r"))
-			{
-				temp1 = sc.nextLine();
-				temp2 = sc.nextLine();
-				System.out.println(R_Command(temp1, temp2, CampusMap));
-			}
-			if(line.equals("q"))
-			{
-				break;
-			}
-			if(line.equals("m"))
-			{
-				System.out.println(M_Command());
-			}
-			if(!line.equals("b") && !line.equals("r") && !line.equals("q") && !line.equals("m"))
-			{
-				System.out.print(Other_Command());
-			}
-		}
-		sc.close();
 	}
 }

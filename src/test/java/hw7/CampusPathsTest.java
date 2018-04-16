@@ -54,7 +54,7 @@ public class CampusPathsTest { // Rename to the name of your "main" class
 		System.setIn(is); // redirects standard input to a file, [filename].test 
 		PrintStream os = new PrintStream(new FileOutputStream(outFilename));
 		System.setOut(os); // redirects standard output to a file, [filename].out 
-		CampusView.main(null); // Call to YOUR main. May have to rename.
+		CampusPaths.main(null); // Call to YOUR main. May have to rename.
 		System.setIn(in); // restores standard input
 		System.setOut(out); // restores standard output
 		assertTrue(compare(expectedFilename,outFilename)); 

@@ -8,10 +8,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 import java.util.Set;
 import hw4.Graph;
 import hw5.MarvelPaths;
 import hw7.CampusParser;
+import hw7.CampusView;
 import javafx.util.Pair;
 import java.lang.Math;
 
@@ -357,4 +359,42 @@ public class CampusPaths {
     	}
     	return "Unknown Angle";
     }
+    public static void main(String args[])
+	{
+		String nodes_file = "data/RPI_map_data_Nodes.csv";
+		String edge_file = "data/RPI_map_data_Edges.csv";
+		CampusPaths CampusMap = new CampusPaths();
+		CampusMap.createNewGraph(nodes_file, edge_file);
+		String temp1;
+		String temp2;
+		String line;
+        Scanner sc = new Scanner(System.in);
+		while (true)
+		{
+			line = sc.nextLine();
+			if(line.equals("b"))
+			{
+				System.out.print(CampusView.B_Command(CampusMap));
+			}
+			if(line.equals("r"))
+			{
+				temp1 = sc.nextLine();
+				temp2 = sc.nextLine();
+				System.out.println(CampusView.R_Command(temp1, temp2, CampusMap));
+			}
+			if(line.equals("q"))
+			{
+				break;
+			}
+			if(line.equals("m"))
+			{
+				System.out.println(CampusView.M_Command());
+			}
+			if(!line.equals("b") && !line.equals("r") && !line.equals("q") && !line.equals("m"))
+			{
+				System.out.print(CampusView.Other_Command());
+			}
+		}
+		sc.close();
+	}
 }
