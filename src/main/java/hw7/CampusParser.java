@@ -23,7 +23,7 @@ public class CampusParser {
         {
              int i = line.indexOf(",");
              if ((i == -1)) {
-            	 throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
+            	// throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
              }  
              int count = 0;
              for(int j = 0; j < line.length(); j++)
@@ -35,7 +35,7 @@ public class CampusParser {
              }
              if(count != 3)
              {
-            	 throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
+            	 //throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
              }
              lines = line.split(",");
              String building;
@@ -71,7 +71,7 @@ public class CampusParser {
         {
              int i = line.indexOf(",");
              if ((i == -1)) {
-            	 throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
+            	 //throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
              }
              lines = line.split(",");
              Pair<String, String> edge = new Pair<String, String>(lines[0], lines[1]);

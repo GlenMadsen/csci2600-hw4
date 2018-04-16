@@ -1,6 +1,4 @@
-First building id/name, followed by Enter: 
-Second building id/name, followed by Enter: 
-Unknown building: []
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Unknown building: []
 133 Sunset Terrace,71
 200 Sunset Terrace,54
 2021 Peoples Avenue,33
@@ -82,9 +80,7 @@ Walker Laboratory,4
 Warren Hall,45
 West Hall,2
 Winslow Building,78
-First building id/name, followed by Enter: 
-Second building id/name, followed by Enter: 
-Unknown building: [ ]
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Unknown building: [ ]
 Unknown building: [112]
 The Commands List: 'b', 'r', 'q', 'm'.
 Unknown option

@@ -21,8 +21,8 @@ public class CampusView
 	}
 	public static String R_Command(String start, String end, CampusPaths CampusMap) 
 	{
-		System.out.println("First building id/name, followed by Enter: ");
-		System.out.println("Second building id/name, followed by Enter: ");
+		System.out.print("First building id/name, followed by Enter: ");
+		System.out.print("Second building id/name, followed by Enter: ");
 		String path = "";
 		// surround with an if and return
 		if(!CampusMap.is_Building(start) || !CampusMap.is_Building(end))
