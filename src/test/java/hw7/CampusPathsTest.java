@@ -54,7 +54,7 @@ public class CampusPathsTest { // Rename to the name of your "main" class
 		System.setIn(is); // redirects standard input to a file, [filename].test 
 		PrintStream os = new PrintStream(new FileOutputStream(outFilename));
 		System.setOut(os); // redirects standard output to a file, [filename].out 
-		CampusPaths.main(null); // Call to YOUR main. May have to rename.
+		CampusView.main(null); // Call to YOUR main. May have to rename.
 		System.setIn(in); // restores standard input
 		System.setOut(out); // restores standard output
 		assertTrue(compare(expectedFilename,outFilename)); 
@@ -65,6 +65,48 @@ public class CampusPathsTest { // Rename to the name of your "main" class
 	@Test
 	public void testListBuildings() throws IOException {
 		runTest("test1");
+	}
+	@Test
+	public void testFindPath() throws IOException {
+		runTest("test2");
+	}
+	@Test
+	public void testLongPath() throws IOException {
+		runTest("test3");
+	}
+	@Test
+	public void testDisconnectedPath() throws IOException {
+		runTest("test4");
+	}
+	@Test
+	public void testInterSectionPath() throws IOException {
+		runTest("test5");
+	}
+	@Test
+	public void testClosePath() throws IOException {
+		runTest("test6");
+	}
+	@Test
+	public void testAnglePath() throws IOException {
+		runTest("test7");
+	}
+	@Test
+	public void testInvalidInputPath() throws IOException {
+		runTest("test8");
+	}
+	@Test
+	public void testDifferent() throws IOException {
+		CampusParser Parser = new CampusParser();
+		CampusView View = new CampusView();
+		CampusPaths Paths = new CampusPaths();
+		try
+		{
+		runTest("test9");
+		}
+		catch (FileNotFoundException e)
+		{
+			//e.printStackTrace();
+		}
 	}
 	
 }

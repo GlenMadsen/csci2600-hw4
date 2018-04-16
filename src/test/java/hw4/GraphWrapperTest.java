@@ -259,6 +259,17 @@ public final class GraphWrapperTest {
 		gr_it = gr.listChildren("B");
 		assertEquals(gr_it.hasNext(), true); //Reflexive Edges no longer supposed to work
 	}
+//	public void list_numerical_edge()
+//	{
+//		GraphWrapper gr = new GraphWrapper();
+//		gr.addNode("A");
+//		gr.addNode("B");
+//		gr.addEdge("A", "B", "51.0");
+//		gr.addEdge("A", "B", "24.2");
+//		Iterator<String> gr_it = gr.listChildren("A");
+//		assertEquals(gr_it.next(), "B(24.2)");
+//		assertEquals(gr_it.next(), "B(51.0)");
+//	}
 	@Test
 	public void list_LotsChildren_Children() // Creates a graph of a few nodes with many edges between them
 	{ // Tests many things at once but nothing no test case has not checked individually.

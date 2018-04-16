@@ -1,0 +1,127 @@
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Admissions to Admissions:
+Total distance: 0.000 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Admissions to Admissions:
+Total distance: 0.000 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Admissions to Admissions:
+Total distance: 0.000 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Admissions to Admissions:
+Total distance: 0.000 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Greenhouses and Grounds Barn to RPI Ambulance:
+	Walk North to (200 Sunset Terrace)
+	Walk NorthWest to (Intersection 127)
+	Walk West to (Intersection 128)
+	Walk West to (Intersection 126)
+	Walk SouthWest to (Burdett Avenue Residence Hall)
+	Walk West to (Intersection 109)
+	Walk SouthWest to (Intersection 118)
+	Walk SouthWest to (Intersection 119)
+	Walk NorthWest to (Admissions)
+	Walk West to (Intersection 105)
+	Walk South to (Rensselaer Union)
+	Walk South to (Public Safety)
+	Walk West to (Intersection 141)
+	Walk SouthWest to (CII)
+	Walk SouthWest to (DCC)
+	Walk SouthWest to (Intersection 138)
+	Walk South to (Intersection 137)
+	Walk South to (Intersection 99)
+	Walk South to (RPI Ambulance)
+Total distance: 1805.118 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Java++ Cafe to RPI Ambulance:
+	Walk NorthWest to (Intersection 100)
+	Walk West to (Intersection 99)
+	Walk South to (RPI Ambulance)
+Total distance: 245.922 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Playhouse to Folsom Library:
+	Walk NorthWest to (Intersection 141)
+	Walk West to (Intersection 142)
+	Walk West to (Engineering Center)
+	Walk West to (Folsom Library)
+Total distance: 399.192 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Quadrangle Complex to Russell Sage Laboratory:
+	Walk West to (87 Gymnasium)
+	Walk West to (Ricketts Building)
+	Walk West to (Troy Building)
+	Walk West to (Russell Sage Laboratory)
+Total distance: 337.769 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Folsom Library to Commons Dining Hall:
+	Walk East to (Engineering Center)
+	Walk East to (Intersection 142)
+	Walk East to (Intersection 141)
+	Walk East to (Public Safety)
+	Walk SouthEast to (Intersection 103)
+	Walk East to (Commons Dining Hall)
+Total distance: 752.213 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Ricketts Building to 87 Gymnasium:
+	Walk East to (87 Gymnasium)
+Total distance: 88.051 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Beman Park Firehouse to 2021 Peoples Avenue:
+	Walk East to (2021 Peoples Avenue)
+Total distance: 33.242 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Crockett Hall to Chapel and Cultural Center:
+	Walk NorthEast to (Intersection 124)
+	Walk North to (Intersection 109)
+	Walk NorthWest to (Chapel and Cultural Center)
+Total distance: 422.370 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Crockett Hall to Blitman Residence Commons:
+	Walk West to (Intersection 121)
+	Walk West to (Intersection 104)
+	Walk West to (Public Safety)
+	Walk West to (Intersection 141)
+	Walk West to (Intersection 142)
+	Walk West to (Engineering Center)
+	Walk NorthWest to (Greene Building)
+	Walk West to (Lally Hall)
+	Walk West to (Amos Eaton Hall)
+	Walk West to (Carnegie Building)
+	Walk North to (Pittsburgh Building)
+	Walk West to (Intersection 94)
+	Walk SouthWest to (Winslow Building)
+	Walk South to (Louis Rubin Memorial Approach)
+	Walk West to (Blitman Residence Commons)
+Total distance: 1268.660 pixel units.
+First building id/name, followed by Enter: 
+Second building id/name, followed by Enter: 
+Path from Blitman Residence Commons to Crockett Hall:
+	Walk East to (Louis Rubin Memorial Approach)
+	Walk North to (Winslow Building)
+	Walk NorthEast to (Intersection 94)
+	Walk East to (Pittsburgh Building)
+	Walk South to (Carnegie Building)
+	Walk East to (Amos Eaton Hall)
+	Walk East to (Lally Hall)
+	Walk East to (Greene Building)
+	Walk SouthEast to (Engineering Center)
+	Walk East to (Intersection 142)
+	Walk East to (Intersection 141)
+	Walk East to (Public Safety)
+	Walk East to (Intersection 104)
+	Walk East to (Intersection 121)
+	Walk East to (Crockett Hall)
+Total distance: 1268.660 pixel units.

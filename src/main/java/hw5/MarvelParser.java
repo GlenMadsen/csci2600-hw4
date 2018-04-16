@@ -15,7 +15,6 @@ public class MarvelParser {
 	 */
     public static void readData(String filename, Map<String,Set<String>> charsInBooks, Set<String> chars) 
     		throws IOException {
-
     	BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line = null;
 
