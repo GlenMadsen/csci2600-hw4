@@ -79,10 +79,8 @@ Walker Laboratory,4
 Warren Hall,45
 West Hall,2
 Winslow Building,78
-First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Quadrangle Complex to LINAC Facility:
-There is no path from Quadrangle Complex to LINAC Facility.
-First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from LINAC Facility to Polytechnic Residence Commons:
-There is no path from LINAC Facility to Polytechnic Residence Commons.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: There is no path from Quadrangle Complex to LINAC Facility.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: There is no path from LINAC Facility to Polytechnic Residence Commons.
 First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Greenhouses and Grounds Barn to 2144 Burdett Avenue:
 	Walk North to (200 Sunset Terrace)
 	Walk NorthWest to (Intersection 127)
