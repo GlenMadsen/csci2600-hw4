@@ -30,7 +30,7 @@ public class CampusParser {
         {
              int i = line.indexOf(","); // Check if the file line is okay, aka 3 commas
              if ((i == -1)) {
-            	// throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
+            	 throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
              }  
              int count = 0;
              for(int j = 0; j < line.length(); j++)
@@ -42,7 +42,7 @@ public class CampusParser {
              }
              if(count != 3) // If not throw exceptions
              {
-            	 //throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
+            	 throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
              }
              lines = line.split(","); // Split the file by commas and reset variables
              building = lines[0]; // Set variables to the proper values
@@ -61,7 +61,7 @@ public class CampusParser {
         {
              int i = line.indexOf(","); // If "CSV" file is invalid throw an exception
              if ((i == -1)) {
-            	 //throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
+            	 throw new IOException("File "+Nodes+" not a CSV (Building Name, id, x, y) file.");
              }
              lines = line.split(","); // Split the line, create a pair, add the pair to BuildingEdges
              Pair<String, String> edge = new Pair<String, String>(lines[0], lines[1]);

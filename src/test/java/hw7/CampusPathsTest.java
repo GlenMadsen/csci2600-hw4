@@ -61,52 +61,86 @@ public class CampusPathsTest { // Rename to the name of your "main" class
 		// TODO: More informative file comparison will be nice.
 		
 	}
+	private void runTest2(String filename, String[] other_files) throws IOException {
+		InputStream in = System.in; 
+		PrintStream out = System.out;				
+		String inFilename = "data/"+filename+".test"; // Input filename: [filename].test here  
+		String expectedFilename = "data/"+filename+".expected"; // Expected result filename: [filename].expected
+		String outFilename = "data/"+filename+".out"; // Output filename: [filename].out
+		BufferedInputStream is = new BufferedInputStream(new FileInputStream(inFilename));
+		System.setIn(is); // redirects standard input to a file, [filename].test 
+		PrintStream os = new PrintStream(new FileOutputStream(outFilename));
+		System.setOut(os); // redirects standard output to a file, [filename].out
+		//System.out.println(files == null);
+		CampusPaths.main(other_files); // Call to YOUR main. May have to rename.
+		System.setIn(in); // restores standard input
+		System.setOut(out); // restores standard output
+		assertTrue(compare(expectedFilename,outFilename)); 
+		// TODO: More informative file comparison will be nice.
+		
+	}
 	
-	@Test
+	@Test // Tests Listing Buildings using given output from the given files
 	public void testListBuildings() throws IOException {
 		runTest("test1");
 	}
-	@Test
+	@Test // Tests finding a path using the sample output
 	public void testFindPath() throws IOException {
 		runTest("test2");
 	}
-	@Test
+	@Test // Tests a longer paths on the graph
 	public void testLongPath() throws IOException {
 		runTest("test3");
 	}
-	@Test
+	@Test // Tests Disconnected paths using nodes 58 and 86 on a few cases
 	public void testDisconnectedPath() throws IOException {
 		runTest("test4");
 	}
-	@Test
+	@Test // Tests finding paths using intersections, either primarily through them or 
+		  // calling path with them and checking if the correct output is returned
 	public void testInterSectionPath() throws IOException {
 		runTest("test5");
 	}
-	@Test
+	@Test // Tests if various close paths both work and give the shortest path when many are available
 	public void testClosePath() throws IOException {
 		runTest("test6");
 	}
-	@Test
+	@Test // Tests all 8 angles, but if it does a node 1 to node 2 which goes North, also checks if
+		  // node 2 to node 1 goes South, since it takes the same path but in reverse, so 16 tests.
 	public void testAnglePath() throws IOException {
 		runTest("test7");
 	}
-	@Test
+	@Test // Tests things like empty strings or spaces when calling functions and wrong letters
 	public void testInvalidInputPath() throws IOException {
 		runTest("test8");
 	}
-	@Test
+	@Test // Tests the Parser by using a broken file, specifically the building one.
+	public void testNewFile1() throws IOException {
+		String[] files = {"data/hw6_Test_Buildings.csv","data/hw6_Test_Edges.csv"};
+		runTest2("test9", files);
+	}
+	@Test // Tests another part of the parser by using a broken building file in a different way
+	public void testNewFile2() throws IOException {
+		String[] files = {"data/hw6_Test2_Buildings.csv","data/hw6_Test_Edges.csv"};
+		runTest2("test10", files);
+	}
+	@Test // Tests another part of the parser with a broken edge file
+	public void testNewFile3() throws IOException {
+		String[] files = {"data/RPI_map_data_Nodes.csv","data/hw6_Test_Edges.csv"};
+		runTest2("test11", files);	
+	}
+	@Test // Tests creating the objects and if a file isnt found in the first place.
 	public void testDifferent() throws IOException {
 		CampusParser Parser = new CampusParser();
 		CampusView View = new CampusView();
 		CampusPaths Paths = new CampusPaths();
 		try
 		{
-		runTest("test9");
+		runTest("test12");
 		}
 		catch (FileNotFoundException e)
 		{
 			//e.printStackTrace(); I would print here but Submitty wants the stackTrace empty
 		}
 	}
-	
 }

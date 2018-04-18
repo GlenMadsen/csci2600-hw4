@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class CampusView 
 {
 	/**
-   	 * @param CampusPaths model object CampusMap
+   	 * @param CampusModel model object campusMap
 	 * @returns String representing a list of all the buildings in the form of Building Name, id in
 	 * 			lexicographic order.
 	 * @throws N/A
@@ -13,11 +13,11 @@ public class CampusView
 	 * @effects N/A
 	 * @modifies N/A
 	*/
-	public static String B_Command(CampusPaths CampusMap)
+	public static String B_Command(CampusModel campusMap)
 	{ // B_Command calls CampusMap method Listing_Buildings which by specification returns an
 	  // ArrayList of all the Building Names, not including the empty strings of inersections, and an
 	  // empty ArrayList if there are no Buildings.
-		ArrayList<String> Buildings = new ArrayList<String>(CampusMap.Listing_Buildings());
+		ArrayList<String> Buildings = new ArrayList<String>(campusMap.Listing_Buildings());
 		Buildings.sort(null); // Sorts the ArrayList
 		String next_B = "";
 		for(int i = 0; i < Buildings.size(); i++) // Constructs the string which, as the view, it has
@@ -26,13 +26,13 @@ public class CampusView
 		  // is all it needs
 			next_B = next_B.concat(Buildings.get(i));
 			next_B = next_B.concat(",");
-			next_B = next_B.concat(CampusMap.get_ID(Buildings.get(i)));
+			next_B = next_B.concat(campusMap.get_ID(Buildings.get(i)));
 			next_B = next_B.concat("\n");
 		}
 		return next_B;
 	}
 	/**
-   	 * @param CampusPaths model object CampusMap
+   	 * @param CampusModel model object CampusMap
    	 * @param String start which is the starting building name or id, must correspond to a building not an intersection
    	 * @param String end which is the starting building name or id, must correspond to a building not an intersection
 	 * @returns: A string which either states that the node(s) were not found in the Graph graph,
@@ -46,7 +46,7 @@ public class CampusView
 	 * @effects N/A
 	 * @modifies N/A
 	*/
-	public static String R_Command(String start, String end, CampusPaths CampusMap) 
+	public static String R_Command(String start, String end, CampusModel campusMap) 
 	{  // Starts outputting the correct ouput
 		String path = "";
 		double path_L = 0.00;
@@ -56,40 +56,40 @@ public class CampusView
 		// the specified output, of which there are a few cases
 		// Is Building just returns a boolean of whether not the id maps to a non-empty building name
 		// or if it is in the list of building names, so it is a 'get' method for the view from the model
-		if(!CampusMap.is_Building(start) || !CampusMap.is_Building(end))
+		if(!campusMap.is_Building(start) || !campusMap.is_Building(end))
 		{
 			if(start.equals(end))
 			{
 				return "Unknown building: [" + start + "]";
 			}
-			if(!CampusMap.is_Building(start) && !CampusMap.is_Building(end))
+			if(!campusMap.is_Building(start) && !campusMap.is_Building(end))
 			{
     	    	path = path.concat("Unknown building: [" + start + "]" + "\n");
     	    	path = path.concat("Unknown building: [" + end + "]");
     	    	return path;
 			}
-			if(!CampusMap.is_Building(start))
+			if(!campusMap.is_Building(start))
 			{
     	    	path = path.concat("Unknown building: [" + start + "]");
 			}
-			if(!CampusMap.is_Building(end))
+			if(!campusMap.is_Building(end))
 			{
     	    	path = path.concat("Unknown building: [" + end + "]");
 			}
 			return path; // Since they aren't building names it stops the path construction and returns
 		} // Get building takes building or id name and returns the corresponding building name, a 'get' method.
-		String temp1 = CampusMap.get_Building(start); // Some variable which won't be needed unless
-		String temp2 = CampusMap.get_Building(end);   // they are actually buildings, so initialization is delayed.
+		String temp1 = campusMap.get_Building(start); // Some variable which won't be needed unless
+		String temp2 = campusMap.get_Building(end);   // they are actually buildings, so initialization is delayed.
 		if(temp1.equals(temp2)) // Returns specified output if they are equal
 		{
 			path = path.concat("Path from " + temp1 + " to " + temp2 + ":\n");
 			path = path.concat("Total distance: 0.000 pixel units.");
 			return path;
 		}
-		String id1 = CampusMap.get_ID(start); // Gets the id's using a 'getter' method from the model
-		String id2 = CampusMap.get_ID(end);
+		String id1 = campusMap.get_ID(start); // Gets the id's using a 'getter' method from the model
+		String id2 = campusMap.get_ID(end);
 		String angle;
-		ArrayList<String> P = new ArrayList<String>(CampusMap.findPath(id1, id2)); // Uses the model's
+		ArrayList<String> P = new ArrayList<String>(campusMap.findPath(id1, id2)); // Uses the model's
 		// findPath which returns an array list of (id1, id2, Distance between the two, id2, id3, ...)
 		// and since it just returns the raw data, of which there is enough to construct a path,
 		// it upholds the MVC design archetype.
@@ -106,15 +106,15 @@ public class CampusView
 		// with the angle parsing that double into a direction in the view.
 		for(int i = 0; i < P.size(); i += 3)
 		{
-			if(CampusMap.is_Building(P.get(i+1)))
+			if(campusMap.is_Building(P.get(i+1)))
 			{
-				temp1 = "(".concat(CampusMap.get_Building(P.get(i+1))).concat(")");
+				temp1 = "(".concat(campusMap.get_Building(P.get(i+1))).concat(")");
 			}
-			if(!CampusMap.is_Building(P.get(i+1)))
+			if(!campusMap.is_Building(P.get(i+1)))
 			{
-				temp1 = "(Intersection ".concat(CampusMap.get_ID(P.get(i+1))).concat(")");
+				temp1 = "(Intersection ".concat(campusMap.get_ID(P.get(i+1))).concat(")");
 			}
-			angle = findDirection(CampusMap.find_Angle(P.get(i), P.get(i+1)));
+			angle = findDirection(campusMap.find_Angle(P.get(i), P.get(i+1)));
 			path = path.concat("\tWalk " + angle + " to " +  temp1 + "\n");
 			path_L += Double.valueOf(P.get(i+2));
 		} // After the path is built and total distance found it outputs such.
