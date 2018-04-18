@@ -2,6 +2,7 @@ package hw7;
 
 import java.util.ArrayList;
 
+// This class does not represent an ADT
 public class CampusView 
 {
 	/**

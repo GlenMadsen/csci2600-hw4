@@ -2,6 +2,7 @@ package hw7;
 import hw7.CampusView;
 import java.util.Scanner;
 
+//This class does not represent an ADT
 public class CampusPaths {
     public static void main(String args[]) // Main Method, also the controller
 	{

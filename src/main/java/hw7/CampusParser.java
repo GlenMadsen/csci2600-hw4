@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import javafx.util.Pair;
 
-
+//This class does not represent an ADT
 public class CampusParser {
 	/** @param: Nodes The path to the "CSV" file that contains the <Building Name, id, x coordinate, y coordinate> lines
 	    @param: Edges, the path to the "CSV" file that contains the <id1,id2> pairs                                                                                             

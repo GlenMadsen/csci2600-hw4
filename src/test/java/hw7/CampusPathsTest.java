@@ -1,12 +1,11 @@
 package hw7;
 
 import java.io.*;
-
 import hw7.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
+//This class does not represent an ADT as it is the test class
 public class CampusPathsTest { // Rename to the name of your "main" class
 
 	/**
