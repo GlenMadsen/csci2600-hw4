@@ -1,0 +1,50 @@
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Russell Sage Dining Hall to Quadrangle Complex:
+	Walk North to (Quadrangle Complex)
+Total distance: 119.604 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Quadrangle Complex to Russell Sage Dining Hall:
+	Walk South to (Russell Sage Dining Hall)
+Total distance: 119.604 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Sharp Hall to Davison Hall:
+	Walk NorthEast to (Davison Hall)
+Total distance: 42.802 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Davison Hall to Sharp Hall:
+	Walk SouthWest to (Sharp Hall)
+Total distance: 42.802 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Lally Hall to Greene Building:
+	Walk East to (Greene Building)
+Total distance: 63.000 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Greene Building to Lally Hall:
+	Walk West to (Lally Hall)
+Total distance: 63.000 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from DCC to CBIS:
+	Walk SouthEast to (Intersection 143)
+	Walk SouthEast to (CBIS)
+Total distance: 132.283 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from CBIS to DCC:
+	Walk NorthWest to (Intersection 143)
+	Walk NorthWest to (DCC)
+Total distance: 132.283 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Mueller Center to Alumni Sports & Recreation Center:
+	Walk South to (Alumni Sports & Recreation Center)
+Total distance: 37.216 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Alumni Sports & Recreation Center to Mueller Center:
+	Walk North to (Mueller Center)
+Total distance: 37.216 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Folsom Library to EMPAC:
+	Walk SouthWest to (EMPAC)
+Total distance: 124.808 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from EMPAC to Folsom Library:
+	Walk NorthEast to (Folsom Library)
+Total distance: 124.808 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Boiler House at 11th Street to Service Building:
+	Walk West to (Service Building)
+Total distance: 64.630 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Service Building to Boiler House at 11th Street:
+	Walk East to (Boiler House at 11th Street)
+Total distance: 64.630 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from H Building to J Building:
+	Walk NorthWest to (J Building)
+Total distance: 87.658 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from J Building to H Building:
+	Walk SouthEast to (H Building)
+Total distance: 87.658 pixel units.
