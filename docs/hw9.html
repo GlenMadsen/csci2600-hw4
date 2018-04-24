@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>CSCI 2600 Homework 9: Campus Paths GUI</title>
+</head>
+<body>
+<div id="header">
+<div class="course">CSCI 2600 Principles of Software</div>
+<h1><!-- omit from toc -->
+<span class="head">Homework 9</span>
+<span class="title">Campus Paths GUI</span>
+</h1>
+<h2><!-- omit from toc -->
+<span class="head">Due:</span>
+<span class="due">Monday, April 30 <b>@11:59:59 pm</b></span>
+</h2>
+</div>
+
+<h2 id="Introduction">Introduction</h2>
+
+<p>
+In Homework 7, you wrote a program that found shortest routes between buildings on the RPI Campus. 
+Now we are asking for a graphical user interface (GUI) that visually draws routes.
+</p>
+
+<p>
+You will build your GUI using Java's Swing and Abstract Windowing Toolkit
+(AWT) libraries. In completing this assignment, you will get practice using
+Swing, event-driven programming, and the MVC (Observer) design pattern.
+</p>
+
+<!--
+<p>
+When you're done, you can share your finished work with family and
+friends by following
+the <a href="http://courses.cs.washington.edu/courses/cse331/13sp/hws/hw8/how-to-create-a-jar.html">instructions for creating a JAR
+file</a>.
+</p>
+-->
+
+<p>
+You are expected to fix any bugs from Homework 7 that affect the
+correctness or performance of your application in Homework 9. Furthermore,
+your Homework 9 should use the model you created in Homework 7. This may
+require that you modify your Homework 7 code, that is OK, but be sure
+that Homework 7 continues to pass all tests!
+</p>
+
+<p>There is no auto-grading on this assignment. However, you still must 
+submit through Submitty.</p>
+
+<h2 id="Requirements">GUI Requirements</h2>
+
+<p>
+You will write a GUI and a main class to launch it
+named <tt>RPICampusPathsMain.java</tt>. This assignment is deliberately 
+open-ended:
+the exact appearance and functionality of your GUI are up to you. The only
+requirements are documented below.
+</p>
+
+<p>
+For the most part, we are not grading on aesthetics: it doesn't matter
+whether your GUI looks pretty as long as it implements the required
+features. Nevertheless, a design which is genuinely confusing or hard
+to use (at our discretion) may not receive full credit. For example,
+we will deduct points if we can't easily figure out how to select the
+two buildings, if it's hard to see the selected path, or if we can
+only see the whole GUI on a 27-inch monitor. In addition, your
+program should be generally responsive: for instance, the GUI should
+not take an unusually long time to find and display paths.
+</p>
+
+<p>
+Your GUI is a new View and Controller for your Campus Paths application.
+Ideally, you should not have to make any changes to your Homework 7
+model classes — they already implement all the Model functionality
+that you need.  If you have to make any small changes (for instance, if
+your design in Homework 7 was poor and some model methods were too closely tied to
+your text view), then you may do so.  As always, all tests from previous
+homeworks must continue to pass, so you may also need to change your
+Homework 7 View and Controller in that case.  In file
+<tt>answers/model-changes.pdf</tt>, list any changes you made to the model.
+For each, write a 1 - 2 sentence explanation of why the change was necessary
+and what you could have done differently on Homework 7 to create a more general
+and reusable Model. If you made no changes, write "None" for this section.
+</p>
+
+<h3 id="Screen-Resolution">Window size</h3>
+<p>At startup, your GUI must fit and be usable on a screen with a
+1024 x 768 resolution.  (You may wish to support resizing
+the window, but doing so is not required.) Most computers provide a
+way to change the screen resolution, which you can use for testing.</p>
+
+<h3 id="Required-Features">Required features</h3>
+<p>At a minimum, your GUI must provide the following features:</p>
+<ul>
+	<li>At startup, load the map data
+	from <tt>data/RPI_map_data_Edges.csv</tt>
+	and <tt>data/RPI_map_data_Nodes.csv</tt> which you should already have in your repository from Homework 7. (This
+	should be in your model, not your view.  There is no need to
+	duplicate files; load them directly from  the <tt>data/</tt> directory.)</li>
+	<li>Display the map of RPI campus. 
+        You may remove the part at the bottom with the building names if you need.
+	<font color="red">(Important note: download the map from the course
+       <a href="http://www.cs.rpi.edu/academics/courses/spring18/csci2600/RPI_campus_map_2010_extra_nodes_edges.png">Web site</a>
+	and save it into your <tt>data/</tt> directory: <tt>data/RPI_campus_map_2010_extra_nodes_edges.png</tt>.
+	DO NOT commit the map as the large file may break the limit on repo size.
+	When testing, we will copy the map into your <tt>data/</tt> directory under the name 
+        <tt>RPI_campus_map_2010_extra_nodes_edges.png</tt>.)
+        </font>
+        </li>
+	<li>Allow the user to select two buildings for finding a route.
+	You might use free-text entry, dropdown menus, selection with the
+	mouse, or some other approach.</li>
+	<li>Mark the selected buildings and/or path endpoints on the map.</li>
+	<li>Draw the shortest route between the selected buildings on the map. 
+          Ideally the map should automatically be zoomed in or out when a route
+	  is drawn, so that the route is almost as large as possible while still
+	  fitting in the window, but this is not required.</li>
+	<li>Allow the user to reset the GUI by clicking a reset
+	button. This button should clear all markings on the map and all
+	other controls (such as building selectors), setting the GUI back to its
+	initial state.</li>
+	<li>Operate robustly: No matter what the user does, your program should
+	never allow an exception message to bubble up to the console window, and
+	your GUI should never crash or reach a buggy/invalid state.</li>
+</ul>
+
+<h3 id="Swing-Widgets">Swing widgets and GUI builders</h3>
+
+<p>
+Use only components from the
+<a href="http://docs.oracle.com/javase/tutorial/uiswing/">Swing</a>
+widget set for this assignment.  You are also allowed to use components
+from
+<a href="http://docs.oracle.com/javase/8/docs/technotes/guides/awt/">AWT</a>, on
+which Swing is built, but should try to stick to Swing when possible.
+</p>
+
+<p>
+Some IDEs, such as NetBeans, will let you specify the appearance and behavior of
+your GUI and automatically generate the code for you. You may not use these
+tools; you must write your GUI from scratch in Java.
+</p>
+
+<h3 id="Launching-GUI">Launching your GUI</h3>
+
+<p>We will launch your GUI from Run As --> Java Application.</p>
+
+<h2 id="Additional-Features">Optional Extra Features</h2>
+<p>
+We encourage you to get creative with both the appearance and functionality of
+your GUI! If you do, <strong> make sure to get a basic GUI working and commit it
+to your repository</strong> before experimenting. Swing can be finicky, and
+seemingly simple UI improvements often become big time sinks. If you've
+committed your working solution, you can always "roll back" to that revision
+later.
+</p>
+
+<p>
+If you want an extra challenge, you are encouraged to implement additional features.
+Here are a few ideas:
+</p>
+<ul>
+	<li>As the window is resized, make the map shrink or grow to fit the
+	window.</li>
+	<li>Maintain the proportions of the map so that it zooms in on a route
+	without becoming distorted.</li>
+        <li>Place the map in a <tt>ScrollPane</tt> so it can be displayed full-size. When displaying a route 
+        or buildings, jump to that spot on the map to resize if needed. (Hint: you probably need to override 
+        <tt>getPreferredSize()</tt> in your "canvas" class for scrolling to work.)</li>
+	<li>Allow the user to select the endpoints of a path by clicking with the mouse on the map.</li>
+	<li>Allow the user to drag the map with the mouse to change the portion that is shown.</li>
+	<li>Add zoom buttons, possibly with a way to recenter the image for zooming if a hand 
+         is not available to drag it (e.g., mouse double click).</li>
+</ul>
+
+<p>
+  List any additional features you implemented, if any,
+  in <tt>answers/extra.txt</tt>.  You must commit a <tt>answers/extra.txt</tt> file,
+  even if it simply contains "None".  Additional features must not mask or
+  replace any of the <a href="#Required-Features"> required
+  features</a>.
+</p>
+
+<p>
+  Extra credit will be awarded for interesting or
+  useful functionality that shows considerable effort. Extra credit will not be
+  awarded for pure "eye candy," such as changing the font and color of buttons
+  or adding a border. 
+</p>
+
+<p>
+  Writing automated tests for GUIs is difficult and usually involves special
+  frameworks that are beyond the scope of this course. For this reason, you are
+  not required to write unit tests. We will test your solution by running your main program.
+</p>
+
+<h2 id="reflection">Reflection [0.5 points]</h2>
+
+<p>Please answer the following questions in a file named <tt>hw9_reflection.pdf</tt>
+in your
+<tt>answers/</tt> directory.  Answer briefly, but in enough detail to
+help you improve your own practice via introspection and to enable the
+course staff to improve PoS in the future.</p>
+<ol>
+  <li>In retrospect, what could you have done better to reduce the time you
+  spent solving this assignment?</li>
+  <li>What could the course staff have done better to improve your learning
+  experience in this assignment?</li>
+  <li>What do you know now that you wish you had known before beginning the
+  assignment?</li>
+</ol>
+
+
+<h2 id="collaboration">Collaboration [0.5 points]</h2>
+<p>Please answer the following questions in a file
+named <tt>hw9_collaboration.pdf</tt> in your
+<tt>answers/</tt> directory.</p>
+<p>
+The standard academic integrity policy applies to this assignment.
+</p>
+<p>
+State whether or not you collaborated with other students.
+If you did collaborate with other students, state their names and a brief
+description of how you collaborated.
+</p>
+
+
+<h2 id="Hints">Hints</h2>
+
+<h3 id="General-Advice">General GUI Advice</h3>
+
+<p>If you've never used Swing, it is well worth your time to do some
+tutorials, read the example code, and generally get comfortable with
+GUI programming before diving into the assignment. You can start by
+studying the examples that came with the GUI lecture.</p>
+
+<p>Abstraction functions, representation invariants, and checkRep() are not
+required for GUI classes because they generally do not represent ADTs.</p>
+
+<p>User testing is a great way to verify that your interface is as easy to use
+as you think it is. Show your GUI to your friend/roommate/sibling.  Can they
+figure out how to use it without directions from you?  
+</p>
+
+<p>As usual, remember to practice good method and class decomposition among
+other best practices for style. In particular, your GUI constructor
+and <tt>paintComponent</tt> will probably be long enough that they
+should be broken into helper methods. Apply refactoring if you feel 
+that a method or class has become too large.</p>
+
+<h3 id="Using-Swing">Programming With Swing</h3>
+
+<p>In addition to the lecture slides and demos,
+Oracle's <a href="http://docs.oracle.com/javase/tutorial/uiswing/">Swing</a>
+and <a href="http://docs.oracle.com/javase/tutorial/2d/index.html">2-D
+Graphics</a> tutorials are a useful resource. Also remember
+to use the
+<a href="http://docs.oracle.com/javase/8/docs/api/index.html?overview-summary.html">Java
+API</a>, particularly 
+the <a href="http://docs.oracle.com/javase/8/docs/api/javax/swing/package-summary.html"><tt>javax.swing</tt></a>
+and <a href="http://docs.oracle.com/javase/8/docs/api/java/awt/package-summary.html"><tt>java.awt</tt></a>
+packages, to see what classes and methods are available and how to use them.
+</p>
+
+<p>To display the routes, you will want to write a custom component and
+override
+<tt>paintComponent()</tt>.  You will
+use <a href="http://docs.oracle.com/javase/8/docs/api/java/awt/Graphics.html"><tt>Graphics</tt></a>
+and/or <a href="http://docs.oracle.com/javase/8/docs/api/java/awt/Graphics2D.html"><tt>Graphics2D</tt></a>
+to do the rendering, as we saw in lecture.</p>
+
+<p>If you have trouble getting things to display at the correct size, make sure
+you have remembered to call <tt>pack()</tt> before setting your frame to be
+visible.</p>
+
+<h2 id="Turnin">What to Turn In</h2>
+
+<p>You should add and commit the following files:</p>
+
+<ul>
+  <li><tt>src/main/java/hw9/RPICampusPathsMain.java</tt></li>
+  <li><tt>src/main/java/hw9/*.java</tt> <em>[your GUI classes]</em></li>
+  <li><tt>answers/model-changes.pdf</tt> <em>[list of changes to HW7.  The file may simply contain "None".]</em></li>
+  <li><tt>answers/extra.pdf</tt> <em>[list of optional features you implemented.  The file may simply contain "None".]</em></li>
+  <li><tt>answers/hw9_reflection.pdf</tt></li>
+  <li><tt>answers/hw9_collaboration.pdf</tt></li>
+</ul>
+
+<p>Additionally, be sure to commit any updates you make to your Homework 7
+files.</p>
+
+
+<h2 id="errata">Errata</h2>
+<p>None yet. Look at Announcements page.</p>
+
+<div id="footer">
+<p>Parts of this homework were copied from Mike Ernst's Software Design and Implementation class.
+</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
+<!--  LocalWords:  img 1px 11pm H7 Returnin ADT MVC hw6 dat tsv jpg java 1px
+ -->
+<!--  LocalWords:  MarvelParser shortName longName x1 y1 x2 y2 distance12 11pm
+ -->
+<!--  LocalWords:  x3 y3 distance13 txt hw7 oversized println TODO xxx yyy
+ -->
+<!--  LocalWords:  prepended atan2 stdin stdout returnin returnin331 hw4
+ -->
+<!--  LocalWords:  hw5 attu 1px 11pm cse331 src HW7TestDriver runTests IMs
+ -->
+<!--  LocalWords:  ScriptFileTests ImplementationTests getAbsoluteFilename
+ -->
+<!--  LocalWords:  HW5TestDriver HW6TestDriver xml 11pm H8 AWT dropdown
+ -->
+<!--  LocalWords:  CampusPathsMain CampusPaths hw8 CampusPathsExample GUIs
+ -->
+<!--  LocalWords:  javax awt paintComponent Graphics2D
+ -->
