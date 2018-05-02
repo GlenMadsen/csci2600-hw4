@@ -429,6 +429,20 @@ public class CampusModel {
     	angle = Math.toDegrees(angle);
     	return angle;
     }
+    /**
+   	 * @param id1 is a String
+   	 * @param id2 is a String
+	 * @returns an Double angle representing the angle between id1 and id2 using x and y coordinates.
+	 * @throws N/A
+	 * @requires Both Strings to be valid IDs since no checking if it is valid is done in the method.
+	 * @effects N/A
+	 * @modifies N/A
+	*/
+    public Pair<Double, Double> get_Coord(String id)
+    { // I use atan2 in math to find the angle
+      // its a very long equation but really its just doing y1-y2/x1-x2 and it works
+    	return ID_to_Coord.get(id);
+    }
 // Made a checkRep() which works, but I have the calls to it commented out in the functions since it
 // is an expensive check which it did not say we needed to run, but I felt like I should write one 
 // so I did.

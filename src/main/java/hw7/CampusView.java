@@ -51,8 +51,8 @@ public class CampusView
 	{  // Starts outputting the correct ouput
 		String path = "";
 		double path_L = 0.00;
-		System.out.print("First building id/name, followed by Enter: ");
-		System.out.print("Second building id/name, followed by Enter: ");
+		path = path.concat("First building id/name, followed by Enter: ");
+		path = path.concat("Second building id/name, followed by Enter: ");
 		// Checks if either start or end is not a building, if it isn't then it has to return the 
 		// the specified output, of which there are a few cases
 		// Is Building just returns a boolean of whether not the id maps to a non-empty building name
@@ -61,7 +61,7 @@ public class CampusView
 		{
 			if(start.equals(end))
 			{
-				return "Unknown building: [" + start + "]";
+				return path.concat("Unknown building: [" + start + "]");
 			}
 			if(!campusMap.is_Building(start) && !campusMap.is_Building(end))
 			{

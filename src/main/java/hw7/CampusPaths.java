@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class CampusPaths {
     public static void main(String args[]) // Main Method, also the controller
 	{
-    	String nodes_file = "hi";
+    	String nodes_file;
     	String edge_file;
     	if(args != null)
     	{
