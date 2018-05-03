@@ -614,12 +614,12 @@ public class RPICampusPathsMain {
 				+ " the only difference is the path is shown in words instead of on the map! \nThere"
 				+ " is also a distance and time approximation for your convienance!\n\n"
 				+ " 7. The Reset button is used to return the tool to the state it was when you started"
-				+ " it, just in case you need an undo button.\n\n\n"
+				+ " it, just in case you need an undo button.\n\n"
 				+ " 8. And Finally, just in case you were in need a good decision, there is a "
 				+ " 'Fastest Route to a Good Decision' Button Handy. This Button will take wherever"
 				+ " you are and find you the \nfastest route to Bella's Pizzaria. It also will give"
 				+ " an approximation on how long it will take and how far it is.\n\n"
-				+ " 9. The Help Button gives you help! And, the Quit Button in case you haven't"
+				+ " 9. The '?' Button gives you help! And, the Quit Button in case you haven't"
 				+ " guessed, quits out of the tool.\n\n Goodluck"
 				+ " Finding Your Way! May you never be lost again!!!";
 			public void actionPerformed(ActionEvent e) {
