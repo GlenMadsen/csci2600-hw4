@@ -21,7 +21,7 @@ public class Image_Panel extends JPanel{
 	private static final long serialVersionUID = -399264903588448546L;// I was getting a serial warning
 	private BufferedImage image; // Save the original image saved, modify the other one to avoid
 	private Image drawn_image;   // Having the image get distorted
-	final static int ORG_H = 2050; // I always cut the image so I need to div. by 2050, not 3400
+	final static int ORG_H = 2050; // I always cut the image so I need to div. by 2050, not 3400.
 	final static int ORG_W = 2175; // These are used for scaling
 	int width;
 	int height;
