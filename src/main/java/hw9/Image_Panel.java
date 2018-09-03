@@ -25,7 +25,7 @@ public class Image_Panel extends JPanel{
 	final static int ORG_W = 2175; // These are used for scaling
 	int width;
 	int height;
-	boolean lines; // Determines in PaintComponent Whether to draw lines/circles
+	boolean lines; // Determines in PaintComponent Whether to draw lines/circles.
 	boolean circle;
 	ArrayList<Pair<Double, Double>> points; // Points to draw lines
 	Pair<Double, Double> start; // Start/End Points
